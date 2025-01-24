@@ -1,0 +1,37 @@
+{
+  "name": "vue3-h5-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vueuse/core": "^12.0.0",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "lodash-es": "^4.17.21",
+    "pinia": "^2.3.0",
+    "vant": "^4.9.10",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^4.2.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.10.2",
+    "@vant/auto-import-resolver": "^1.2.1",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vyron/prettier-config": "^0.1.0",
+    "bumpp": "^9.9.0",
+    "less": "^4.2.1",
+    "postcss-px-to-viewport-8-plugin": "^1.2.5",
+    "tailwindcss": "^3.4.16",
+    "tailwindcss-rem-to-px": "^0.1.1",
+    "unplugin-auto-import": "^0.18.6",
+    "unplugin-vue-components": "^0.27.5",
+    "vite": "^6.0.1"
+  }
+}
