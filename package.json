@@ -13,16 +13,16 @@
 	"bugs": {
 		"url": "https://github.com/vfiee/project-boilerplate/issues"
 	},
-	"homepage": "https://github.com/vfiee/project-boilerplate/tree/uni-app",
+	"homepage": "https://github.com/vfiee/project-boilerplate/tree/uniapp-ts",
 	"engines": {
 		"node": ">=20",
 		"pnpm": ">=10.0.0"
 	},
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
-		"uvm": "npx @dcloudio/uvm@latest",
+		"uvm": "npx @dcloudio/uvm@latest --manager pnpm",
 		"uvm-rm": "node ./scripts/postupgrade.js",
-		"upgrade:uniapp": "uvm && uvm-rm",
+		"upgrade:uniapp": "pnpm uvm && pnpm uvm-rm",
 		"dev": "uni",
 		"dev:app": "uni -p app",
 		"dev:android": "uni -p app-android",
@@ -38,8 +38,7 @@
 		"build:h5:ssr": "uni build --ssr",
 		"build:weixin": "uni build -p mp-weixin",
 		"type-check": "vue-tsc --noEmit",
-		"release": "bumpp -y --all",
-		"openapi-ts-request": "openapi-ts"
+		"release": "bumpp -y --all"
 	},
 	"lint-staged": {
 		"**/*.{html,vue,ts,cjs,json,md}": [
@@ -56,22 +55,11 @@
 		"bin-wrapper": "npm:bin-wrapper-china"
 	},
 	"dependencies": {
-		"@dcloudio/uni-app": "3.0.0-4020920240930001",
-		"@dcloudio/uni-app-harmony": "3.0.0-4020920240930001",
-		"@dcloudio/uni-app-plus": "3.0.0-4020920240930001",
-		"@dcloudio/uni-components": "3.0.0-4020920240930001",
-		"@dcloudio/uni-h5": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-alipay": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-baidu": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-jd": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-kuaishou": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-lark": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-qq": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-toutiao": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-weixin": "3.0.0-4020920240930001",
-		"@dcloudio/uni-mp-xhs": "3.0.0-4020920240930001",
-		"@dcloudio/uni-quickapp-webview": "3.0.0-4020920240930001",
-		"@tanstack/vue-query": "^5.71.0",
+		"@dcloudio/uni-app": "3.0.0-4050720250324001",
+		"@dcloudio/uni-app-plus": "3.0.0-4050720250324001",
+		"@dcloudio/uni-components": "3.0.0-4050720250324001",
+		"@dcloudio/uni-h5": "3.0.0-4050720250324001",
+		"@dcloudio/uni-mp-weixin": "3.0.0-4050720250324001",
 		"@uni-helper/uni-network": "^0.21.1",
 		"@vueuse/core": "^9.13.0",
 		"abortcontroller-polyfill": "^1.7.8",
@@ -85,10 +73,10 @@
 	},
 	"devDependencies": {
 		"@dcloudio/types": "^3.4.14",
-		"@dcloudio/uni-automator": "3.0.0-4020920240930001",
-		"@dcloudio/uni-cli-shared": "3.0.0-4020920240930001",
-		"@dcloudio/uni-stacktracey": "3.0.0-4020920240930001",
-		"@dcloudio/vite-plugin-uni": "3.0.0-4020920240930001",
+		"@dcloudio/uni-automator": "3.0.0-4050720250324001",
+		"@dcloudio/uni-cli-shared": "3.0.0-4050720250324001",
+		"@dcloudio/uni-stacktracey": "3.0.0-4050720250324001",
+		"@dcloudio/vite-plugin-uni": "3.0.0-4050720250324001",
 		"@esbuild/darwin-arm64": "0.20.2",
 		"@esbuild/darwin-x64": "0.20.2",
 		"@iconify-json/carbon": "^1.2.8",
