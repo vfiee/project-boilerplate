@@ -1,0 +1,16 @@
+// #ifdef H5
+@import url("./reset.css");
+@import url("./scrollbar.css");
+// #endif
+@import url("./text.css");
+@import url("./transition.css");
+
+html,
+body,
+#app {
+	height: 100%;
+}
+
+html {
+	overflow-x: hidden;
+}
