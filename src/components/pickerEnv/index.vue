@@ -1,6 +1,5 @@
 <script setup>
-import { watch } from "vue"
-import { getEnvs, useEnvStore } from "./store"
+import { useEnvStore } from "@/stores"
 
 defineOptions({
 	name: "PickerEnv"
@@ -21,18 +20,10 @@ const onConfirm = ({ selectedIndexes }) => {
 	envStore.setCurrentEnvByIndex(selectedIndex)
 	envStore.hide()
 }
-
-watch(
-	() => props.envs,
-	newEnvs => {
-		envStore.envs.value = getEnvs(newEnvs)
-	},
-	{ immediate: true }
-)
 </script>
 <template>
 	<van-popup
-		v-model:show="envStore.visible.value"
+		v-model:show="envStore.visible"
 		destroy-on-close
 		round
 		position="bottom"
@@ -41,8 +32,8 @@ watch(
 		class="h-1/3 overflow-hidden">
 		<van-picker
 			title="请选择环境"
-			:model-value="[envStore.currentEnv.value.env]"
-			:columns="envStore.mapColumns.value"
+			:model-value="[envStore.currentEnv.env]"
+			:columns="envStore.mapColumns"
 			:columnsFieldNames="columnsFieldNames"
 			@cancel="envStore.hide"
 			@confirm="onConfirm" />

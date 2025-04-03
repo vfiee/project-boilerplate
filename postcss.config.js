@@ -1,9 +1,7 @@
 import postcssPxToViewport from "postcss-px-to-viewport-8-plugin"
-import tailwindcss from "tailwindcss"
 
 export default {
 	plugins: [
-		tailwindcss(),
 		postcssPxToViewport({
 			unitToConvert: "px", // 需要转换的单位，默认为"px"
 			viewportWidth: 750, // 设计稿的视口宽度

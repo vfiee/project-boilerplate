@@ -1,30 +1,38 @@
 export const envs = [
 	{
 		env: "test",
-		name: "test环境",
+		name: "测试环境",
 		modules: {
 			common: {
-				proxyPrefix: "book-test",
-				url: "https://test-book.xxx.com"
-			},
-			login: {
-				proxyPrefix: "login-test",
-				url: "https://test-login.xxx.com"
+				proxyPrefix: "test",
+				url: "https://musictest.praises.one"
 			}
 		}
 	},
 	{
 		env: "production",
-		name: "prod环境",
+		name: "正式环境",
 		modules: {
 			common: {
-				proxyPrefix: "book",
-				url: "https://book.xxx.com"
-			},
-			login: {
-				proxyPrefix: "login",
-				url: "https://login.xxx.com"
+				proxyPrefix: "prod",
+				url: "https://music.praises.one"
 			}
 		}
 	}
 ]
+
+export const getProxyConfig = () => {
+	return envs
+		.map(config => Object.values(config.modules))
+		.flat()
+		.reduce((acc, { proxyPrefix, url } = {}) => {
+			acc[`/${proxyPrefix}`] = {
+				target: url,
+				secure: false,
+				changeOrigin: true,
+				headers: { Referer: url },
+				rewrite: path => path.replace(new RegExp(`^/${proxyPrefix}`), "")
+			}
+			return acc
+		}, {})
+}

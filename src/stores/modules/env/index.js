@@ -1,65 +1,64 @@
+import { envs as envConfig, GLOBAL_ENV } from "@/config"
 import { getStorage, setStorage } from "@/utils"
+import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 
 const { APP_ENV } = import.meta.env
 
-const CURRENT_STORAGE_ENV_KEY = `ENV_CONFIG_CURRENT_ENV_KEY`
-
-export function setActiveEnv(envs, index) {
+function setActiveEnv(envs, index) {
 	for (let i = 0; i < envs.length; i++) {
 		envs[i].active = i === index
-		setStorage(CURRENT_STORAGE_ENV_KEY, envs[index])
+		setStorage(GLOBAL_ENV, envs[index])
 	}
 	return envs
 }
 
-export function getEnvs(configs) {
+function getEnvs(configs) {
 	// 1. 查看本地缓存是否有当前环境,如果有对比配置是否发生改变
 	// 2. 本地没有缓存,查看用户传入的配置是否有设置active
 	// 3. 用户没有设置当前环境, 根据环境变量(process.env.NODE_ENV)匹配当前的环境
-
-	const storageEnv = getStorage(CURRENT_STORAGE_ENV_KEY)
+	const storageEnv = getStorage(GLOBAL_ENV)
 	if (storageEnv) {
 		const index = configs.findIndex(config => config.env === storageEnv.env)
-		if (JSON.stringify(storageEnv) === JSON.stringify(configs[index]))
-			return configs
+		if (JSON.stringify(storageEnv) === JSON.stringify(configs[index])) {
+			return storageEnv
+		}
 		return setActiveEnv(configs, index)
 	}
 	const activeIndex = configs.findIndex(config => !!config.active)
 	if (activeIndex !== -1) {
 		return setActiveEnv(configs, activeIndex)
 	}
-	const envIndex = configs.findIndex(config => config.env === APP_ENV)
-	if (envIndex !== -1) {
-		return setActiveEnv(configs, envIndex)
-	}
-	const prodEnvIndex = configs.findIndex(config => config.env === "production")
-	return setActiveEnv(configs, prodEnvIndex)
+	const envIndex = configs.findIndex(
+		config => config.env === APP_ENV || "production"
+	)
+	return setActiveEnv(configs, envIndex)
 }
 
-const $visible = ref(false)
-const $envs = ref([])
+export const useEnvStore = defineStore("env", () => {
+	const visible = ref(false)
+	const envs = ref(getEnvs(envConfig))
 
-export const useEnvStore = () => {
-	const show = () => ($visible.value = true)
-	const hide = () => ($visible.value = false)
-	const toggle = () => ($visible.value = !$visible.value)
+	const show = () => (visible.value = true)
+	const hide = () => (visible.value = false)
+	const toggle = () => (visible.value = !visible.value)
+
 	const setCurrentEnv = env => {
-		$envs.value.forEach(item => {
+		envs.value.forEach(item => {
 			item.active = item.env === env.env
 		})
-		setStorage(CURRENT_STORAGE_ENV_KEY, env)
+		setStorage(GLOBAL_ENV, env)
 	}
 	const setCurrentEnvByIndex = index => {
-		const envConfig = $envs.value[index]
+		const envConfig = envs.value[index]
 		if (!envConfig) return
 		setCurrentEnv(envConfig)
 	}
-	const currentEnv = computed(
-		() => $envs.value.filter(item => item.active)?.[0]
-	)
+	const currentEnv = computed(() => {
+		return envs.value.filter(item => item.active)?.[0]
+	})
 	const mapColumns = computed(() => {
-		return $envs.value.map(env => ({
+		return envs.value.map(env => ({
 			...env,
 			className: env.active ? "text-[#2dd4bf] font-bold" : ""
 		}))
@@ -68,8 +67,8 @@ export const useEnvStore = () => {
 		return currentEnv.value.modules?.[moduleName]
 	}
 	return {
-		visible: $visible,
-		envs: $envs,
+		visible,
+		envs,
 		show,
 		hide,
 		toggle,
@@ -79,6 +78,5 @@ export const useEnvStore = () => {
 		getCurrentEnvModule,
 		setCurrentEnvByIndex
 	}
-}
-
+})
 export default useEnvStore

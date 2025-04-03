@@ -1,16 +1,24 @@
-import Router from "@/router"
-import dayjs from "dayjs"
-import Duration from "dayjs/plugin/duration"
-import { createPinia } from "pinia"
+import { setupRouter } from "@/router"
+import { setupStore } from "@/stores"
 import { Lazyload } from "vant"
 import { createApp } from "vue"
 import App from "./App.vue"
+import {
+	setupAppUpdate,
+	setupDayjs,
+	setupLoading,
+	setupNProgress
+} from "./plugins"
 
-function initDayjs() {
-	dayjs.locale("zh-cn")
-	dayjs.extend(Duration)
+async function setupApp() {
+	setupLoading()
+	setupNProgress()
+	setupDayjs()
+	const app = createApp(App).use(Lazyload)
+	setupStore(app)
+	await setupRouter(app)
+	setupAppUpdate(app)
+	app.mount("#app")
 }
 
-initDayjs()
-
-createApp(App).use(createPinia()).use(Lazyload).use(Router).mount("#app")
+setupApp()
