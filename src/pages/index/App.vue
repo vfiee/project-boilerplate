@@ -1,7 +1,7 @@
 <script setup>
-import AppProvider from '@/components/appProvider/index.vue';
-import ZH_CN from 'ant-design-vue/es/locale/zh_CN';
-import Index from "./views/index/index.vue";
+import AppProvider from '@/components/appProvider/index.vue'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import Index from './views/index/index.vue'
 
 defineOptions({
   name: 'APP'
@@ -9,7 +9,7 @@ defineOptions({
 </script>
 
 <template>
-  <a-config-provider :locale="ZH_CN">
+  <a-config-provider :locale="zhCN">
     <AppProvider>
       <Index class="bg-layout" />
     </AppProvider>

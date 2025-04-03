@@ -1,0 +1,64 @@
+<script setup>
+// 定保跟进
+import { ref } from 'vue'
+
+defineOptions({ name: 'FollowUp' })
+
+const form = ref()
+const model = ref({})
+
+const rules = {
+  nextFollowDate: [
+    {
+      required: true,
+      message: '请选择下次跟进日期'
+    }
+  ]
+}
+
+async function handleSubmit() {
+  await form.value.validate()
+  console.log(`model.value:`, model.value)
+}
+
+async function handleFreeze() {
+  console.log('冻结')
+}
+async function handleFail() {
+  console.log('战败')
+}
+</script>
+<template>
+  <a-form
+    ref="form"
+    v-model:model="model"
+    class="flex-1 b-l-1 b-solid b-#999 px-30px"
+    :rules="rules"
+    :labelCol="{ span: 3 }"
+  >
+    <a-form-item label="电话" name="phoneCall">
+      <a-switch
+        v-model:checked="model.phoneCall"
+        checked-children="接通"
+        un-checked-children="未接通"
+      />
+    </a-form-item>
+    <a-form-item name="nextFollowDate" label="下次跟进">
+      <a-date-picker
+        show-time
+        v-model:value="model.nextFollowDate"
+        placeholder="请选择日期"
+      />
+    </a-form-item>
+    <a-form-item name="remark" label="备注">
+      <a-textarea v-model="remark" placeholder="请输入备注信息" />
+    </a-form-item>
+    <a-form-item :wrapper-col="{ offset: 3 }">
+      <a-button type="link" class="text-#333" @click="handleFreeze"
+        >申请冻结</a-button
+      >
+      <a-button danger class="mr-10px" @click="handleFail">战败</a-button>
+      <a-button type="primary" @click="handleSubmit">保存跟进</a-button>
+    </a-form-item>
+  </a-form>
+</template>
