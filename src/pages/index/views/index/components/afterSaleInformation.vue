@@ -58,7 +58,7 @@ const onStoreChange = () => {
     <div
       class="w-300px ml-10px shadow h-full rounded flex-col overflow-hidden bg-white"
     >
-      <div class="text-18px font-bold p-10px">历史进店</div>
+      <div class="text-18px font-bold p-10px pb-0">历史进店</div>
       <div class="flex-1 overflow-auto pb-10px">
         <div
           class="mx-10px mt-10px rounded-8px p-8px border-1px border-solid border-#e8e8e8 cursor-pointer"

@@ -28,6 +28,7 @@
     "@types/node": "^22.10.2",
     "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
     "@vyron/prettier-config": "^0.1.0",
     "bumpp": "^9.9.0",
     "cross-env": "^7.0.3",
