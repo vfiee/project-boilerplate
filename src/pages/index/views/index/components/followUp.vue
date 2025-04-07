@@ -36,20 +36,30 @@ async function handleFail() {
     :rules="rules"
     :labelCol="{ span: 3 }"
   >
-    <a-form-item label="电话" name="phoneCall">
-      <a-switch
-        v-model:checked="model.phoneCall"
-        checked-children="接通"
-        un-checked-children="未接通"
-      />
-    </a-form-item>
-    <a-form-item name="nextFollowDate" label="下次跟进">
-      <a-date-picker
-        show-time
-        v-model:value="model.nextFollowDate"
-        placeholder="请选择日期"
-      />
-    </a-form-item>
+    <a-row :gutter="0">
+      <a-col :span="12">
+        <a-form-item
+          :labelCol="{ span: 6 }"
+          name="nextFollowDate"
+          label="下次跟进"
+        >
+          <a-date-picker
+            show-time
+            v-model:value="model.nextFollowDate"
+            placeholder="请选择日期"
+          />
+        </a-form-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-item label="电话" name="phoneCall">
+          <a-switch
+            v-model:checked="model.phoneCall"
+            checked-children="接通"
+            un-checked-children="未接通"
+          />
+        </a-form-item>
+      </a-col>
+    </a-row>
     <a-form-item name="remark" label="备注">
       <a-textarea v-model="remark" placeholder="请输入备注信息" />
     </a-form-item>

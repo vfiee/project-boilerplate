@@ -1,9 +1,10 @@
 <script setup>
 import { PieChart } from 'echarts/charts'
 import {
-    GraphicComponent,
-    LegendComponent,
-    TooltipComponent
+  GraphicComponent,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent
 } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { LabelLayout } from 'echarts/features'
@@ -14,6 +15,7 @@ echarts.use([
   GraphicComponent,
   TooltipComponent,
   LegendComponent,
+  GridComponent,
   PieChart,
   CanvasRenderer,
   LabelLayout
