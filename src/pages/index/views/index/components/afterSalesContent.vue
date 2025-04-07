@@ -8,7 +8,7 @@ import UserAdvantage from './userAdvantage.vue'
 
 const hide = defineModel('hide')
 
-const activeKey = ref('2')
+const activeKey = ref('3')
 </script>
 
 <template>
