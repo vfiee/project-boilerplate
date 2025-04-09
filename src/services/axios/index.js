@@ -26,7 +26,6 @@ instance.interceptors.request.use((config) => {
   const { proxyPrefix, url } = modules[requestModule] || {}
   config.baseURL = DEV ? `/${proxyPrefix}` : url
   config.headers = merge({}, config.headers, { Authorization: access_token })
-  console.log(`config:`, config)
   return config
 })
 

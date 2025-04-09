@@ -1,11 +1,15 @@
 <script setup lang="jsx">
+import { useBoolean } from '@/hooks'
 import { useAxios } from '@/services'
 import { Icon } from '@iconify/vue'
 import { createReusableTemplate } from '@vueuse/core'
 import { toLength } from 'lodash-es'
 import { ref } from 'vue'
+import CouponDetail from './couponDetail.vue'
 
 const storeId = ref()
+const detailRecord = ref(null)
+const { bool, setTrue } = useBoolean()
 const [DefineTemplate, CardTemplate] = createReusableTemplate()
 
 const { isLoading, data, execute } = useAxios(
@@ -215,6 +219,15 @@ const filterOption = (input, option) => {
   return value.indexOf(input) >= 0
 }
 
+const customRow = (record) => {
+  return {
+    onClick: () => {
+      detailRecord.value = record
+      setTrue()
+    }
+  }
+}
+
 init()
 </script>
 <template>
@@ -285,6 +298,8 @@ init()
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 200 }"
+      :customRow="customRow"
+      :rowKey="(record) => record.id"
     />
     <a-table
       :columns="columnsTwo"
@@ -293,6 +308,7 @@ init()
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 200 }"
+      :rowKey="(record) => record.id"
     />
     <a-table
       :columns="columnsThree"
@@ -301,6 +317,8 @@ init()
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 100 }"
+      :rowKey="(record) => record.id"
     />
   </div>
+  <CouponDetail v-model:visible="bool" />
 </template>
