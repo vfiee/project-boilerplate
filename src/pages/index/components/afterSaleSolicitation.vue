@@ -47,7 +47,7 @@ const columns = [
   }
 ]
 
-const dataSource = Array.from(Array(40)).map((_, index) => ({
+const dataSource = Array.from(Array(1)).map((_, index) => ({
   key: index,
   followDate: '2023-10-01',
   followType: '已完成',
@@ -55,7 +55,7 @@ const dataSource = Array.from(Array(40)).map((_, index) => ({
   remark: '张三'
 }))
 
-const insuranceRecord = Array.from(Array(14)).map((_, index) => ({
+const insuranceRecord = Array.from(Array(3)).map((_, index) => ({
   key: index,
   date: '2023-10-01',
   store: '永达****店铺',
@@ -67,7 +67,7 @@ const onStoreChange = () => {
 }
 </script>
 <template>
-  <div class="flex h-full pb-16px info-container">
+  <div class="flex pb-16px info-container max-h-2000px">
     <div class="flex-1">
       <a-table
         :scroll="{ y: 'calc(100vh - 80vh)' }"
@@ -82,9 +82,7 @@ const onStoreChange = () => {
         :pagination="false"
       />
     </div>
-    <div
-      class="w-300px ml-10px shadow h-full rounded flex-col overflow-hidden bg-white"
-    >
+    <div class="w-300px ml-10px shadow rounded flex-col bg-white max-h-2000px">
       <div class="text-18px font-bold p-10px pb-0">历史活动</div>
       <div class="flex-1 overflow-auto pb-10px">
         <div

@@ -36,6 +36,20 @@ const dataSource = [
     followType: '电话跟进',
     followInfo: '继续跟进',
     remark: '备注信息'
+  },
+  {
+    key: '3',
+    followDate: '2025/02/27 14:44:33',
+    followType: '电话跟进',
+    followInfo: '继续跟进',
+    remark: '备注信息'
+  },
+  {
+    key: '4',
+    followDate: '2025/02/27 14:44:33',
+    followType: '电话跟进',
+    followInfo: '继续跟进',
+    remark: '备注信息'
   }
 ]
 </script>
@@ -46,10 +60,10 @@ const dataSource = [
         <span class="text-base text-#666">跟进记录</span>
       </template>
       <a-table
-        class="h-170px"
         :columns="columns"
         :data-source="dataSource"
         :pagination="false"
+        :scroll="{ y: 170 }"
       />
     </a-tab-pane>
   </a-tabs>

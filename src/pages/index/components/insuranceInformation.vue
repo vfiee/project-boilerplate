@@ -89,7 +89,7 @@ const onStoreChange = () => {
       </div>
     </template>
   </DefineTemplate>
-  <div class="flex h-full pb-16px info-container">
+  <div class="flex pb-16px info-container">
     <div class="flex-1">
       <ReuseTemplate
         :data="dataOne"
@@ -116,7 +116,7 @@ const onStoreChange = () => {
       />
     </div>
     <div
-      class="w-300px ml-10px shadow h-full rounded flex-col overflow-hidden bg-white"
+      class="w-300px ml-10px shadow rounded flex-col overflow-hidden bg-white max-h-700px"
     >
       <div class="text-18px font-bold p-10px pb-0">历史保单</div>
       <div class="flex-1 overflow-auto pb-10px">

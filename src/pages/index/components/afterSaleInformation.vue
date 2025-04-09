@@ -35,7 +35,7 @@ const dataSource = Array.from(Array(40)).map((_, index) => ({
   remark: '张三'
 }))
 
-const insuranceRecord = Array.from(Array(14)).map((_, index) => ({
+const insuranceRecord = Array.from(Array(3)).map((_, index) => ({
   key: index,
   date: '2023-10-01',
   store: '永达****店铺',
@@ -47,25 +47,26 @@ const onStoreChange = () => {
 }
 </script>
 <template>
-  <div class="flex h-full pb-16px info-container">
+  <div class="flex pb-16px info-container max-h-2000px">
     <a-table
-      class="flex-1 h-full overflow-hidden"
-      :scroll="{ y: 'calc(100vh - 230px)' }"
+      class="flex-1 overflow-hidden"
+      :scroll="{ y: '2000px' }"
       :columns="columns"
       :data-source="dataSource"
       :pagination="false"
     />
     <div
-      class="w-300px ml-10px shadow h-full rounded flex-col overflow-hidden bg-white"
+      class="w-300px ml-10px shadow rounded flex-col overflow-hidden bg-white max-h-2000px"
     >
       <div class="text-18px font-bold p-10px pb-0">历史进店</div>
       <div class="flex-1 overflow-auto pb-10px">
         <div
           class="mx-10px mt-10px rounded-8px p-8px border-1px border-solid border-#e8e8e8 cursor-pointer"
-          v-for="{ key, date, store, type } in insuranceRecord"
+          v-for="({ key, date, store, type }, index) in insuranceRecord"
           :key="key"
           @click="onStoreChange"
         >
+          {{ index + 1 }}
           <div class="mt-4px">{{ date }}</div>
           <div class="mt-4px">{{ store }}</div>
           <div class="bar mt-4px">{{ type }}</div>
