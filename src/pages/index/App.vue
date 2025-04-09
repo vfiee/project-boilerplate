@@ -1,7 +1,7 @@
 <script setup>
 import AppProvider from '@/components/appProvider/index.vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import Index from './views/index/index.vue'
+import Index from './index.vue'
 
 defineOptions({
   name: 'APP'

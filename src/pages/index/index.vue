@@ -1,8 +1,11 @@
 <script setup>
 import { useBoolean } from '@/hooks'
+import { updateDialogTitle } from '@/utils'
 import AfterSalesContent from './components/afterSalesContent.vue'
 import AfterSalesTask from './components/afterSalesTask.vue'
 import CarInfo from './components/carInfo.vue'
+
+updateDialogTitle('人工坐席招揽任务详情')
 
 const { bool } = useBoolean(false)
 </script>

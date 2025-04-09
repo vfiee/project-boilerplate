@@ -17,6 +17,9 @@ importers:
       '@vueuse/core':
         specifier: ^12.0.0
         version: 12.0.0
+      '@vyron/use-axios':
+        specifier: ^0.2.0
+        version: 0.2.0(axios@1.7.9)(vue@3.5.13)
       ant-design-vue:
         specifier: ^4.2.6
         version: 4.2.6(vue@3.5.13)
@@ -922,6 +925,12 @@ packages:
 
   '@vyron/prettier-config@0.1.0':
     resolution: {integrity: sha512-DiVK/eJxgv1Dh6N+weU4TZS3rt57wrPnU7hE2QXFv/dhtmVT2x3P3WEghGxDSBfThf9/5ClhtSp12aRz3S7IWw==}
+
+  '@vyron/use-axios@0.2.0':
+    resolution: {integrity: sha512-lxOAwHGe8KhpFUXtbSYzp36J+nthgZEbF+toM/Psf2pcNqU5whLe814r7KUOqzUWg0M/R6ds3rghd5Be+txfow==}
+    peerDependencies:
+      axios: ^1.8.4
+      vue: ^3.5.13
 
   acorn@8.14.0:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
@@ -2895,6 +2904,11 @@ snapshots:
       - typescript
 
   '@vyron/prettier-config@0.1.0': {}
+
+  '@vyron/use-axios@0.2.0(axios@1.7.9)(vue@3.5.13)':
+    dependencies:
+      axios: 1.7.9
+      vue: 3.5.13
 
   acorn@8.14.0: {}
 
