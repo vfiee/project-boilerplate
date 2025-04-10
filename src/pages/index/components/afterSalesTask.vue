@@ -22,7 +22,6 @@ function closeDrawer() {
         <span class="ml-6px">返回</span>
       </div>
       <div class="text-18px font-500 ml-20px">售后招揽任务</div>
-      <a-tag class="ml-4px" color="processing">+10</a-tag>
       <div
         class="bg-blue text-white ml-auto px-10px py-6px rounded cursor-pointer"
         @click="setTrue"
