@@ -5,25 +5,24 @@ defineOptions({ name: 'SendTextMessage' })
 
 const visible = defineModel('visible')
 
-const model = ref()
+const model = ref({})
 </script>
 <template>
   <a-modal v-model:open="visible" title="发送短信">
-    <a-form v-model:model="model" class="mt-30px">
-      <a-form-item label="所有人姓名" placeholder="请输入姓名">
-        <a-input v-model:value="model.ownerName" placeholder="请输入姓名" />
+    <a-form v-model:model="model" class="mt-30px" labelAlign="left" :labelCol="{ span: 4 }">
+      <a-form-item label="短信模板">
+        <a-select v-model:value="model.template" placeholder="请选择短信模板" />
       </a-form-item>
-      <a-form-item label="所有人电话">
-        <a-input
-          v-model:value="model.ownerTel"
-          type="tel"
-          placeholder="请输入手机号"
-        />
+      <a-form-item label="品牌">
+        <a-input v-model:value="model.brand" placeholder="请输入品牌" />
       </a-form-item>
-      <a-form-item label="使用者姓名">
-        <a-input v-model:value="model.userName" placeholder="请输入姓名" />
+      <a-form-item label="车牌号">
+        <a-input v-model:value="model.carNum" placeholder="请输入车牌号" />
       </a-form-item>
-      <a-form-item label="使用者电话">
+      <a-form-item label="车险顾问">
+        <a-input v-model:value="model.userName" placeholder="请输入车险顾问" />
+      </a-form-item>
+      <a-form-item label="手机号">
         <a-input
           v-model:value="model.userTel"
           type="tel"

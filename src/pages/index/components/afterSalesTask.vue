@@ -1,8 +1,14 @@
 <script setup>
+import { useBoolean } from '@/hooks'
 import { Icon } from '@iconify/vue'
+import Appointment from './appointment.vue'
 import Clue from './clue.vue'
 import FollowUp from './followUp.vue'
 import FollowUpRecords from './followUpRecords.vue'
+import SendMessage from './seedMessage.vue'
+
+const { bool, setTrue } = useBoolean()
+const { bool: visible, setTrue: setVisibleTrue } = useBoolean()
 
 function closeDrawer() {
   console.log(`关闭弹框`)
@@ -19,11 +25,13 @@ function closeDrawer() {
       <a-tag class="ml-4px" color="processing">+10</a-tag>
       <div
         class="bg-blue text-white ml-auto px-10px py-6px rounded cursor-pointer"
+        @click="setTrue"
       >
         <Icon icon="mynaui:message" class="text-16px translate-y-4px mr-10px" />
         发送短信
       </div>
       <div
+        @click="setVisibleTrue"
         class="bg-#DEB874 text-white ml-20px px-10px py-6px rounded cursor-pointer"
       >
         <Icon
@@ -39,5 +47,7 @@ function closeDrawer() {
       <FollowUp />
     </div>
     <FollowUpRecords />
+    <SendMessage v-model:visible="bool" />
+    <Appointment v-model:visible="visible" />
   </div>
 </template>
