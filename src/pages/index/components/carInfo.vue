@@ -2,8 +2,10 @@
 import { useBoolean } from '@/hooks'
 import { Icon } from '@iconify/vue'
 import { computed } from 'vue'
+import EditCarInfo from './editCarInfo.vue'
 
 const { bool: visible, toggleBoolean } = useBoolean()
+const { bool, setTrue } = useBoolean(false)
 const icon = computed(() =>
   visible.value ? 'ph:eye-light' : 'solar:eye-closed-bold'
 )
@@ -48,8 +50,24 @@ const insuranceList = [
 ]
 // 人车关系
 const carRelationshipList = [
-  { name: '张三', tel: '156****8899', fav: true, relation: 0 },
-  { name: '李四', tel: '174****9966', fav: true, relation: 1 }
+  {
+    name: '张三',
+    tel: '156****8899',
+    text: '所',
+    cls: 'bg-blue'
+  },
+  {
+    name: '李四',
+    tel: '174****9966',
+    text: '用',
+    cls: 'bg-green'
+  },
+  {
+    name: '绑定人',
+    tel: '174****9966',
+    text: '绑',
+    cls: 'bg-yellow'
+  }
 ]
 </script>
 
@@ -87,28 +105,25 @@ const carRelationshipList = [
       <Icon
         icon="material-symbols-light:contract-edit-outline-sharp"
         class="ml-auto text-20px cursor-pointer"
+        @click="setTrue"
       />
     </div>
     <div
       class="flex-y-center px-10px mt-16px"
-      v-for="({ name, tel, fav, relation }, index) in carRelationshipList"
+      v-for="({ name, tel, text, cls }, index) in carRelationshipList"
       :key="'relation-' + index"
     >
       <div
         class="size-20px rounded-full text-center line-height-20px text-white text-12px"
-        :class="relation == 0 ? 'bg-blue' : 'bg-green'"
+        :class="cls"
       >
-        {{ relation == 0 ? '所' : '用' }}
+        {{ text }}
       </div>
       <div class="text-16px text-#333 ml-6px flex-1">{{ name }}</div>
       <div class="text-16px text-#333 ml-14px flex-1">{{ tel }}</div>
-      <Icon
-        class="text-20px ml-12px"
-        :class="{ 'text-yellow': fav }"
-        :icon="fav ? 'line-md:star-filled' : 'line-md:star'"
-      />
       <Icon class="text-16px ml-12px" icon="iconoir:phone-solid" />
     </div>
+    <EditCarInfo v-model:visible="bool" :data="{}" />
   </div>
 </template>
 

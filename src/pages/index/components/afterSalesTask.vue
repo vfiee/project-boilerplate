@@ -11,14 +11,20 @@ function closeDrawer() {
 <template>
   <div class="bg-white rounded px-10px transition-all">
     <div class="flex-y-center h-50px">
-      <div class="flex-y-center text-#999" @click="closeDrawer">
+      <div class="flex-y-center text-#999 cursor-pointer" @click="closeDrawer">
         <Icon icon="famicons:arrow-back" class="text-20px" />
         <span class="ml-6px">返回</span>
       </div>
       <div class="text-18px font-500 ml-20px">售后招揽任务</div>
       <a-tag class="ml-4px" color="processing">+10</a-tag>
       <div
-        class="bg-#DEB874 text-white ml-auto px-10px py-6px rounded cursor-pointer"
+        class="bg-blue text-white ml-auto px-10px py-6px rounded cursor-pointer"
+      >
+        <Icon icon="mynaui:message" class="text-16px translate-y-4px mr-10px" />
+        发送短信
+      </div>
+      <div
+        class="bg-#DEB874 text-white ml-20px px-10px py-6px rounded cursor-pointer"
       >
         <Icon
           icon="solar:calendar-line-duotone"
