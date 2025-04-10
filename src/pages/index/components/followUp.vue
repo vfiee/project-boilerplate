@@ -1,11 +1,14 @@
 <script setup>
 // 定保跟进
+import { useBoolean } from '@/hooks'
 import { ref } from 'vue'
+import FailReason from './failReason.vue'
 
 defineOptions({ name: 'FollowUp' })
 
 const form = ref()
 const model = ref({})
+const { bool: failVisible, setTrue: setFailTrue } = useBoolean()
 
 const rules = {
   nextFollowDate: [
@@ -67,8 +70,9 @@ async function handleFail() {
       <a-button type="link" class="text-#333" @click="handleFreeze"
         >申请冻结</a-button
       >
-      <a-button danger class="mr-10px" @click="handleFail">战败</a-button>
+      <a-button danger class="mr-10px" @click="setFailTrue">战败</a-button>
       <a-button type="primary" @click="handleSubmit">保存跟进</a-button>
     </a-form-item>
   </a-form>
+  <FailReason v-model:visible="failVisible" />
 </template>
