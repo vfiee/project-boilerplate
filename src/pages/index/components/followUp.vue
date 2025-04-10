@@ -2,6 +2,7 @@
 // 定保跟进
 import { useBoolean } from '@/hooks'
 import { ref } from 'vue'
+import ApplyFreeze from './applyFreeze.vue'
 import FailReason from './failReason.vue'
 
 defineOptions({ name: 'FollowUp' })
@@ -9,6 +10,7 @@ defineOptions({ name: 'FollowUp' })
 const form = ref()
 const model = ref({})
 const { bool: failVisible, setTrue: setFailTrue } = useBoolean()
+const { bool: freezeVisible, setTrue: setFreezeTrue } = useBoolean()
 
 const rules = {
   nextFollowDate: [
@@ -22,13 +24,6 @@ const rules = {
 async function handleSubmit() {
   await form.value.validate()
   console.log(`model.value:`, model.value)
-}
-
-async function handleFreeze() {
-  console.log('冻结')
-}
-async function handleFail() {
-  console.log('战败')
 }
 </script>
 <template>
@@ -54,12 +49,8 @@ async function handleFail() {
         </a-form-item>
       </a-col>
       <a-col :span="12">
-        <a-form-item label="电话" name="phoneCall">
-          <a-switch
-            v-model:checked="model.phoneCall"
-            checked-children="接通"
-            un-checked-children="未接通"
-          />
+        <a-form-item name="phoneCall">
+          <a-checkbox v-model:checked="model.phoneCall">未接通</a-checkbox>
         </a-form-item>
       </a-col>
     </a-row>
@@ -67,7 +58,7 @@ async function handleFail() {
       <a-textarea v-model="remark" placeholder="请输入备注信息" />
     </a-form-item>
     <a-form-item :wrapper-col="{ offset: 3 }">
-      <a-button type="link" class="text-#333" @click="handleFreeze"
+      <a-button type="link" class="text-#333" @click="setFreezeTrue"
         >申请冻结</a-button
       >
       <a-button danger class="mr-10px" @click="setFailTrue">战败</a-button>
@@ -75,4 +66,5 @@ async function handleFail() {
     </a-form-item>
   </a-form>
   <FailReason v-model:visible="failVisible" />
+  <ApplyFreeze v-model:visible="freezeVisible" />
 </template>
