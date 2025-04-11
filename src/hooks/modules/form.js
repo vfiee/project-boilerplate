@@ -1,9 +1,9 @@
 import {
-    REG_CODE_SIX,
-    REG_EMAIL,
-    REG_PHONE,
-    REG_PWD,
-    REG_USER_NAME
+  REG_CODE_SIX,
+  REG_EMAIL,
+  REG_PHONE,
+  REG_PWD,
+  REG_USER_NAME
 } from '@/config'
 import { ref, toValue } from 'vue'
 
@@ -91,9 +91,14 @@ export function useAntdForm() {
     formRef.value?.resetFields()
   }
 
+  function clearValidate() {
+    formRef.value?.clearValidate()
+  }
+
   return {
     formRef,
     validate,
-    resetFields
+    resetFields,
+    clearValidate
   }
 }

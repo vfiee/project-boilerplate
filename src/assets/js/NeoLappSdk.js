@@ -1,4 +1,4 @@
-let lapp = {
+export let lapp = {
   connection: {
     invoke({ url, method = 'GET', contentType, params, data, headers }) {
       // 返回一个promise对象
