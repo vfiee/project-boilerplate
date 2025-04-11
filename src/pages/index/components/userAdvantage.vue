@@ -5,10 +5,12 @@ import { Icon } from '@iconify/vue'
 import { createReusableTemplate } from '@vueuse/core'
 import { toLength } from 'lodash-es'
 import { ref } from 'vue'
+import { useCarStore } from '../stores'
 import CouponDetail from './couponDetail.vue'
 
 const storeId = ref()
 const detailRecord = ref(null)
+const carStore = useCarStore()
 const { bool, setTrue } = useBoolean()
 const [DefineTemplate, CardTemplate] = createReusableTemplate()
 
@@ -16,11 +18,11 @@ const [DefineTemplate, CardTemplate] = createReusableTemplate()
 const { isLoading, data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/card_Coupon_List',
   {
+    module: 'crm',
     method: 'POST',
     data: {
       source: 'CRM',
-      belongVin: 'SUJLPKJ0987678057',
-      guid: 'A21E32CB-0459-B376-C236-E2592FACE849'
+      belongVin: carStore.carNum
     }
   }
 )
@@ -35,8 +37,7 @@ const {
   data: {
     source: 'CRM',
     itemType: 'integral',
-    belongVin: 'SUJLPKJ0987678057',
-    guid: 'A21E32CB-0459-B376-C236-E2592FACE849'
+    belongVin: carStore.carNum
   }
 })
 
@@ -50,7 +51,7 @@ const {
   data: {
     source: 'CRM',
     itemType: 'balance',
-    belongVin: 'SUJLPKJ0987678057'
+    belongVin: carStore.carNum
   }
 })
 
@@ -222,24 +223,8 @@ const filterOption = (input, option) => {
   return value.indexOf(input) >= 0
 }
 
-const {
-  execute: getDetail,
-  data: couponDetail,
-  error,
-  isLoading: isCouponDetailLoading
-} = useAxios('/rest/data/v2.0/scripts/api/central/getCouponDetailYD', {
-  method: 'POST',
-  module: 'crm'
-})
-const showCouponDetail = async ({ id }) => {
-  if (isCouponDetailLoading.value) return
-  await getDetail({
-    data: {
-      couponInstanceId: id
-    }
-  })
-  if (error.value) return
-  detailRecord.value = couponDetail.value
+const showCouponDetail = (record) => {
+  detailRecord.value = record
   setTrue()
 }
 
@@ -341,5 +326,5 @@ init()
       :rowKey="(record) => record.id"
     />
   </div>
-  <CouponDetail v-model:visible="bool" :data="detailRecord" />
+  <CouponDetail v-model:visible="bool" :record="detailRecord" />
 </template>

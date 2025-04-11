@@ -5,25 +5,27 @@ import { sensitivePhone } from '@/utils'
 import { Icon } from '@iconify/vue'
 import { get, isEmpty } from 'lodash-es'
 import { computed } from 'vue'
-import { useCallStore } from '../stores'
+import { useCallStore, useCarStore } from '../stores'
 import EditCarInfo from './editCarInfo.vue'
 
 // 车架号
-const carNumber = 'LHGCP168792006753'
 
 const callStore = useCallStore()
+const carStore = useCarStore()
 const { bool: sensitive, toggleBoolean } = useBoolean(true)
 const { bool, setTrue } = useBoolean(false)
 const icon = computed(() =>
   !sensitive.value ? 'ph:eye-light' : 'solar:eye-closed-bold'
 )
 
+carStore.setCarNum('SUJLPKJ0987678057')
+
 // 获取车辆信息
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   module: 'crm',
   method: 'POST',
   data: {
-    xoql: `select id,license_plate_number__c,custom_union_name__c__c,brand_name__c,series_name__c,vehicle_name__c,vin__c,engine__c,date_the_vehicle_was_registered_with_the_DMV__c__c,custom_union_tel__c__c,custom_union_id__c,major_sender__c,Vehicle_name__c__c,Vehicle_tel__c__c,car_bind_id__c__c,car_bind_tel__c__c,car_bind_name__c__c from human_vehicle_relationship__c where vin__c='${carNumber}'`
+    xoql: `select id,license_plate_number__c,custom_union_name__c__c,brand_name__c,series_name__c,vehicle_name__c,vin__c,engine__c,date_the_vehicle_was_registered_with_the_DMV__c__c,custom_union_tel__c__c,custom_union_id__c,major_sender__c,Vehicle_name__c__c,Vehicle_tel__c__c,car_bind_id__c__c,car_bind_tel__c__c,car_bind_name__c__c from human_vehicle_relationship__c where vin__c='${carStore.carNum}'`
   },
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'

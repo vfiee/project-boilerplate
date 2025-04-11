@@ -1,12 +1,44 @@
 <script setup>
 import { createReusableTemplate } from '@vueuse/core'
+import { isFunction, get, isEmpty } from 'lodash-es'
+import { watch } from 'vue'
+import { useAxios } from '@/services'
 
-const [DefineTemplate, CouponList] = createReusableTemplate()
+const props = defineProps({
+  record: {
+    type: Object,
+    required: true
+  }
+})
 
 const visible = defineModel('visible')
 
+const [DefineTemplate, CouponList] = createReusableTemplate()
+
+const { execute, data, isLoading } = useAxios(
+  '/rest/data/v2.0/scripts/api/central/getCouponDetailYD',
+  {
+    method: 'POST',
+    module: 'crm',
+    interceptors: {
+      response: false
+    }
+  }
+)
+
+watch(
+  () => props.record,
+  (record) => {
+    if (isEmpty(record)) return
+    execute({ data: { couponInstanceId: props.record.byteId } })
+  },
+  {
+    immediate: true
+  }
+)
+
 const couponInfoList = [
-  { label: '卡券名称：', value: 'name' },
+  { label: '卡券名称：', value: 'data.name' },
   {
     label: '卡券类型：',
     value: (data) => {
@@ -18,13 +50,14 @@ const couponInfoList = [
           4: '资格券',
           5: '次卡'
         },
-        get(data, 'couponType')
+        get(data, 'couponType'),
+        ''
       )
     }
   },
-  { label: '券面价值：', value: 'showText' },
-  { label: '相关项目：', value: 'itemName' },
-  { label: '有效期限：', value: 'validTime' },
+  { label: '券面价值：', value: 'data.showText' },
+  { label: '相关项目：', value: 'data.itemName' },
+  { label: '有效期限：', value: 'data.validTime' },
   //  0不更新，1实时更新，2按自然月更新，3按自然年更新 4按自然天更新
   {
     label: '卡券属性：',
@@ -41,21 +74,22 @@ const couponInfoList = [
           3: '按自然年更新',
           4: '按自然天更新'
         },
-        get(data, 'secondCycleType')
+        get(data, 'data.secondCycleType'),
+        ''
       )
   },
   { label: '次数：', value: 'secondLessNum' }
 ]
 const carInfoList = [
-  { label: '车牌号码：', value: 'carCode' },
-  { label: '车架号码：', value: 'vinCode' },
+  { label: '车牌号码：', value: 'data.carCode' },
+  { label: '车架号码：', value: 'data.vinCode' },
   { label: '客户姓名：', value: '' },
-  { label: '相关项目：', value: 'itemName' },
+  { label: '相关项目：', value: 'data.itemName' },
   {
     label: '手机号码/信用代码：',
     value: (data) => {
       const { receiveUserMobile, creditCode } = data || {}
-      return `${receiveUserMobile}/${creditCode}`
+      return `${receiveUserMobile || ''}/${creditCode || ''}`
     }
   },
   {
@@ -69,27 +103,28 @@ const carInfoList = [
           4: '其它',
           5: '二手车'
         },
-        get(data, 'business')
+        get(data, 'business'),
+        ''
       )
   },
-  { label: '物料组：', value: 'materialGroupCodeList' },
-  { label: '适用品牌：', value: 'applicableBrandNameList' },
-  { label: '适用车系：', value: 'applicableSeriesNameList' },
-  { label: '适用企业：', value: 'shopCode' },
+  { label: '物料组：', value: 'data.materialGroupCodeList' },
+  { label: '适用品牌：', value: 'data.applicableBrandNameList' },
+  { label: '适用车系：', value: 'data.applicableSeriesNameList' },
+  { label: '适用企业：', value: 'data.shopCode' },
   { label: '备注说明：', value: '' }
 ]
 
 const couponRecordList = [
-  { label: '发放时间：', value: 'sendHistory.sendTime' },
-  { label: '发放企业：', value: 'sendHistory.sendShopName' },
-  { label: '发放部门：', value: 'sendHistory.sendDepartment' },
-  { label: '发放形式：', value: 'sendHistory.sendType' },
-  { label: '权益订单：', value: 'sendHistory.sendCouponOrderFormId' },
-  { label: 'DOP订单：', value: 'sendHistory.ecmOrderFormId' },
-  { label: '产品ID：', value: 'sendHistory.productId' },
-  { label: '活动名称：', value: 'sendHistory.productName' },
-  { label: '订单金额：', value: 'sendHistory.commodityPrice' },
-  { label: '发放说明：', value: 'sendHistory.sendComment' }
+  { label: '发放时间：', value: 'data.sendHistory.sendTime' },
+  { label: '发放企业：', value: 'data.sendHistory.sendShopName' },
+  { label: '发放部门：', value: 'data.sendHistory.sendDepartment' },
+  { label: '发放形式：', value: 'data.sendHistory.sendType' },
+  { label: '权益订单：', value: 'data.sendHistory.sendCouponOrderFormId' },
+  { label: 'DOP订单：', value: 'data.sendHistory.ecmOrderFormId' },
+  { label: '产品ID：', value: 'data.sendHistory.productId' },
+  { label: '活动名称：', value: 'data.sendHistory.productName' },
+  { label: '订单金额：', value: 'data.sendHistory.commodityPrice' },
+  { label: '发放说明：', value: 'data.sendHistory.sendComment' }
 ]
 </script>
 <template>
@@ -102,15 +137,21 @@ const couponRecordList = [
       :key="label"
       class="flex text-#333 text-14px mt-12px"
     >
-      <div class="min-w-80px whitespace-nowrap pl-12px">{{ label }}</div>
-      <div class="flex-1">{{ value }}</div>
+      <div class="min-w-80px whitespace-nowrap pl-12px">
+        {{ label }}
+      </div>
+      <div class="flex-1">
+        {{ isFunction(value) ? value(data?.data) : get(data, value, '') }}
+      </div>
     </div>
   </DefineTemplate>
   <a-drawer title="卡卷详情" width="600px" v-model:open="visible">
-    <CouponList :list="couponInfoList" title="卡卷信息" />
-    <a-divider />
-    <CouponList :list="carInfoList" />
-    <CouponList :list="couponRecordList" title="发放记录" />
+    <a-spin :spinning="isLoading">
+      <CouponList :list="couponInfoList" title="卡卷信息" />
+      <a-divider />
+      <CouponList :list="carInfoList" />
+      <CouponList :list="couponRecordList" title="发放记录" />
+    </a-spin>
   </a-drawer>
 </template>
 <style lang="less" scoped>

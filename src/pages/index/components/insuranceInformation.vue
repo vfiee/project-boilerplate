@@ -1,8 +1,19 @@
 <script setup>
+import { useAxios } from '@/services'
 import { createReusableTemplate } from '@vueuse/core'
 import { isEmpty } from 'lodash-es'
+import { useCarStore } from '../stores'
 
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
+
+const carStore = useCarStore()
+const { data, error, execute } = useAxios(
+  '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
+  {
+    module: 'crm',
+    method: 'POST'
+  }
+)
 
 const dataOne = {
   list: [
@@ -51,6 +62,8 @@ const insuranceRecord = Array.from(Array(14)).map((_, index) => ({
 const onStoreChange = () => {
   console.log('onStoreChange')
 }
+
+execute({ data: { vin: carStore.carNum } })
 </script>
 <template>
   <DefineTemplate v-slot="{ data, title, containerClass }">
