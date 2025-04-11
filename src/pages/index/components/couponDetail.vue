@@ -6,40 +6,90 @@ const [DefineTemplate, CouponList] = createReusableTemplate()
 const visible = defineModel('visible')
 
 const couponInfoList = [
-  { label: '卡券名称：', value: '' },
-  { label: '卡券类型：', value: '' },
-  { label: '券面价值：', value: '' },
-  { label: '相关项目：', value: '' },
-  { label: '有效期限：', value: '' },
-  { label: '卡券属性：', value: '' },
-  { label: '更新周期：', value: '' },
-  { label: '次数：', value: '' }
+  { label: '卡券名称：', value: 'name' },
+  {
+    label: '卡券类型：',
+    value: (data) => {
+      return get(
+        {
+          1: '代金券',
+          2: '折扣券',
+          3: '兑换券',
+          4: '资格券',
+          5: '次卡'
+        },
+        get(data, 'couponType')
+      )
+    }
+  },
+  { label: '券面价值：', value: 'showText' },
+  { label: '相关项目：', value: 'itemName' },
+  { label: '有效期限：', value: 'validTime' },
+  //  0不更新，1实时更新，2按自然月更新，3按自然年更新 4按自然天更新
+  {
+    label: '卡券属性：',
+    value: ''
+  },
+  {
+    label: '更新周期：',
+    value: (data) =>
+      get(
+        {
+          0: '不更新',
+          1: '实时更新',
+          2: '按自然月更新',
+          3: '按自然年更新',
+          4: '按自然天更新'
+        },
+        get(data, 'secondCycleType')
+      )
+  },
+  { label: '次数：', value: 'secondLessNum' }
 ]
 const carInfoList = [
-  { label: '车牌号码：', value: '' },
-  { label: '车架号码：', value: '' },
+  { label: '车牌号码：', value: 'carCode' },
+  { label: '车架号码：', value: 'vinCode' },
   { label: '客户姓名：', value: '' },
-  { label: '相关项目：', value: '' },
-  { label: '手机号码/信用代码：', value: '' },
-  { label: '业务范围：', value: '' },
-  { label: '物料组：', value: '' },
-  { label: '适用品牌：', value: '' },
-  { label: '适用车系：', value: '' },
-  { label: '适用企业：', value: '' },
+  { label: '相关项目：', value: 'itemName' },
+  {
+    label: '手机号码/信用代码：',
+    value: (data) => {
+      const { receiveUserMobile, creditCode } = data || {}
+      return `${receiveUserMobile}/${creditCode}`
+    }
+  },
+  {
+    label: '业务范围：',
+    value: (data) =>
+      get(
+        {
+          1: '销售',
+          2: '售后',
+          3: '保险',
+          4: '其它',
+          5: '二手车'
+        },
+        get(data, 'business')
+      )
+  },
+  { label: '物料组：', value: 'materialGroupCodeList' },
+  { label: '适用品牌：', value: 'applicableBrandNameList' },
+  { label: '适用车系：', value: 'applicableSeriesNameList' },
+  { label: '适用企业：', value: 'shopCode' },
   { label: '备注说明：', value: '' }
 ]
 
 const couponRecordList = [
-  { label: '发放时间：', value: '' },
-  { label: '发放企业：', value: '' },
-  { label: '发放部门：', value: '' },
-  { label: '发放形式：', value: '' },
-  { label: '权益订单：', value: '' },
-  { label: 'DOP订单：', value: '' },
-  { label: '产品ID：', value: '' },
-  { label: '活动名称：', value: '' },
-  { label: '订单金额：', value: '' },
-  { label: '发放说明：', value: '' }
+  { label: '发放时间：', value: 'sendHistory.sendTime' },
+  { label: '发放企业：', value: 'sendHistory.sendShopName' },
+  { label: '发放部门：', value: 'sendHistory.sendDepartment' },
+  { label: '发放形式：', value: 'sendHistory.sendType' },
+  { label: '权益订单：', value: 'sendHistory.sendCouponOrderFormId' },
+  { label: 'DOP订单：', value: 'sendHistory.ecmOrderFormId' },
+  { label: '产品ID：', value: 'sendHistory.productId' },
+  { label: '活动名称：', value: 'sendHistory.productName' },
+  { label: '订单金额：', value: 'sendHistory.commodityPrice' },
+  { label: '发放说明：', value: 'sendHistory.sendComment' }
 ]
 </script>
 <template>

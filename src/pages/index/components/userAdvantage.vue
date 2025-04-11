@@ -12,6 +12,7 @@ const detailRecord = ref(null)
 const { bool, setTrue } = useBoolean()
 const [DefineTemplate, CardTemplate] = createReusableTemplate()
 
+// 卡卷列表接口
 const { isLoading, data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/card_Coupon_List',
   {
@@ -24,6 +25,7 @@ const { isLoading, data, execute } = useAxios(
   }
 )
 
+// 积分列表接口
 const {
   isLoading: isLoading2,
   data: data2,
@@ -38,6 +40,7 @@ const {
   }
 })
 
+// 储值列表接口
 const {
   isLoading: isLoading3,
   data: data3,
@@ -219,12 +222,30 @@ const filterOption = (input, option) => {
   return value.indexOf(input) >= 0
 }
 
+const {
+  execute: getDetail,
+  data: couponDetail,
+  error,
+  isLoading: isCouponDetailLoading
+} = useAxios('/rest/data/v2.0/scripts/api/central/getCouponDetailYD', {
+  method: 'POST',
+  module: 'crm'
+})
+const showCouponDetail = async ({ id }) => {
+  if (isCouponDetailLoading.value) return
+  await getDetail({
+    data: {
+      couponInstanceId: id
+    }
+  })
+  if (error.value) return
+  detailRecord.value = couponDetail.value
+  setTrue()
+}
+
 const customRow = (record) => {
   return {
-    onClick: () => {
-      detailRecord.value = record
-      setTrue()
-    }
+    onClick: () => showCouponDetail(record)
   }
 }
 
@@ -270,7 +291,7 @@ init()
         icon="lsicon:coupon-outline"
         iconClass="text-yellow-500"
         title="卡卷"
-        :count="toLength(data?.data?.length)"
+        :count="toLength(data?.length)"
         description="暂无即将到期的卡劵"
         containerClass="min-w-180px"
       />
@@ -278,7 +299,7 @@ init()
         icon="mynaui:bitcoin-square"
         iconClass="text-green-500"
         title="积分"
-        :count="toLength(data2?.data?.integralOrBalanceVOList?.length)"
+        :count="toLength(data2?.integralOrBalanceVOList?.length)"
         description="暂无即将到期的积分"
         containerClass="min-w-180px"
       />
@@ -286,7 +307,7 @@ init()
         icon="bx:wallet"
         iconClass="text-blue-500"
         title="储值"
-        :count="toLength(data3?.data?.integralOrBalanceVOList?.length)"
+        :count="toLength(data3?.integralOrBalanceVOList?.length)"
         description="储值无有效限期"
         containerClass="min-w-180px"
       />
@@ -294,7 +315,7 @@ init()
     <a-table
       :loading="isLoading"
       :columns="columnsOne"
-      :data-source="data?.data"
+      :data-source="data"
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 200 }"
@@ -304,7 +325,7 @@ init()
     <a-table
       :columns="columnsTwo"
       :loading="isLoading2"
-      :data-source="data2?.data?.integralOrBalanceVOList"
+      :data-source="data2?.integralOrBalanceVOList"
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 200 }"
@@ -313,12 +334,12 @@ init()
     <a-table
       :columns="columnsThree"
       :loading="isLoading3"
-      :data-source="data3?.data?.integralOrBalanceVOList"
+      :data-source="data3?.integralOrBalanceVOList"
       class="mt-16px"
       :pagination="false"
       :scroll="{ y: 100 }"
       :rowKey="(record) => record.id"
     />
   </div>
-  <CouponDetail v-model:visible="bool" />
+  <CouponDetail v-model:visible="bool" :data="detailRecord" />
 </template>
