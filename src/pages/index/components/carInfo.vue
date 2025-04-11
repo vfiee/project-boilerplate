@@ -5,11 +5,13 @@ import { sensitivePhone } from '@/utils'
 import { Icon } from '@iconify/vue'
 import { get, isEmpty } from 'lodash-es'
 import { computed } from 'vue'
+import { useCallStore } from '../stores'
 import EditCarInfo from './editCarInfo.vue'
 
 // 车架号
 const carNumber = 'LHGCP168792006753'
 
+const callStore = useCallStore()
 const { bool: sensitive, toggleBoolean } = useBoolean(true)
 const { bool, setTrue } = useBoolean(false)
 const icon = computed(() =>
@@ -17,7 +19,7 @@ const icon = computed(() =>
 )
 
 // 获取车辆信息
-const { execute, data, isLoading } = useAxios('/rest/data/v2.0/query/xoql', {
+const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   module: 'crm',
   method: 'POST',
   data: {
@@ -100,7 +102,10 @@ const carRelationshipList = computed(() => {
   })
 })
 
-const makePhoneCall = () => {}
+const makePhoneCall = ({ telephone }) => {
+  $('#dialout_input').val(telephone)
+  callStore.dial()
+}
 
 execute()
 </script>

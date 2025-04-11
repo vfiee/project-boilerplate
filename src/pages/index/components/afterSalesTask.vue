@@ -2,6 +2,7 @@
 import { useBoolean } from '@/hooks'
 import { Icon } from '@iconify/vue'
 import Appointment from './appointment.vue'
+import CallBar from './callBar.vue'
 import Clue from './clue.vue'
 import FollowUp from './followUp.vue'
 import FollowUpRecords from './followUpRecords.vue'
@@ -22,21 +23,19 @@ function closeDrawer() {
         <span class="ml-6px">返回</span>
       </div>
       <div class="text-18px font-500 ml-20px">售后招揽任务</div>
+      <CallBar class="!ml-auto" />
       <div
-        class="bg-blue text-white ml-auto px-10px py-6px rounded cursor-pointer"
+        class="bg-blue text-white ml-20px px-10px py-6px rounded cursor-pointer flex-y-center"
         @click="setTrue"
       >
-        <Icon icon="mynaui:message" class="text-16px translate-y-4px mr-10px" />
+        <Icon icon="mynaui:message" class="text-16px mr-10px" />
         发送短信
       </div>
       <div
         @click="setVisibleTrue"
-        class="bg-#DEB874 text-white ml-20px px-10px py-6px rounded cursor-pointer"
+        class="bg-#DEB874 text-white ml-20px px-10px py-6px rounded cursor-pointer flex-y-center"
       >
-        <Icon
-          icon="solar:calendar-line-duotone"
-          class="text-16px translate-y-2px mr-10px"
-        />
+        <Icon icon="solar:calendar-line-duotone" class="text-16px mr-10px" />
         立即预约
       </div>
     </div>

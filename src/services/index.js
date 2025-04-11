@@ -1,2 +1,3 @@
-export * from './axios';
+export * from './axios'
+export * from './neo/jsSdk'
 
