@@ -18,7 +18,7 @@ const icon = computed(() =>
   !sensitive.value ? 'ph:eye-light' : 'solar:eye-closed-bold'
 )
 
-carStore.setCarNum('SUJLPKJ0987678057')
+carStore.setCarNum('CHENJUN2019062101')
 
 // 获取车辆信息
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {

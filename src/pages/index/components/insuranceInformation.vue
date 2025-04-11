@@ -1,13 +1,14 @@
 <script setup>
 import { useAxios } from '@/services'
 import { createReusableTemplate } from '@vueuse/core'
-import { isEmpty } from 'lodash-es'
+import { get, isEmpty, isFunction } from 'lodash-es'
+import { computed, ref } from 'vue'
 import { useCarStore } from '../stores'
 
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
 const carStore = useCarStore()
-const { data, error, execute } = useAxios(
+const { data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
   {
     module: 'crm',
@@ -15,52 +16,56 @@ const { data, error, execute } = useAxios(
   }
 )
 
+const current = ref(0)
+const list = computed(() => (isEmpty(data.value) ? [] : data.value))
+const detail = computed(() => get(list.value, `[${current.value}]`) || {})
+
 const dataOne = {
   list: [
-    { label: '车牌号', value: '123456789012345678' },
-    { label: '所有人', value: '张三' },
-    { label: '签单日期', value: '张三' },
-    { label: '投保类型', value: '李四' },
-    { label: '签单人', value: '1000000' },
-    { label: '保险专员', value: '1000000' }
+    { label: '车牌号', value: 'licenseNo' },
+    { label: '所有人', value: 'allName' },
+    { label: '签单日期', value: 'issueTime' },
+    {
+      label: '投保类型',
+      value: (data) =>
+        get(
+          {
+            237001: '新保',
+            237002: '续保',
+            237002: '转保'
+          },
+          get(data, 'issueType')
+        ) || ''
+    },
+    { label: '签单人', value: 'createUserName' },
+    { label: '保险专员', value: 'belongerDopName' }
   ],
   list2: [
-    { label: '投保人', value: '123456789012345678' },
-    { label: '被保人', value: '张三' },
-    { label: '证件类型', value: '张三' },
-    { label: '证件类型', value: '李四' },
-    { label: '联系方式', value: '1000000' },
-    { label: '联系方式', value: '1000000' },
-    { label: '证件号码', value: '1000000' },
-    { label: '证件号码', value: '1000000' }
+    { label: '投保人', value: 'insureName' },
+    { label: '被保人', value: 'insuredName' },
+    { label: '证件类型', value: 'insureCertificateType' },
+    { label: '证件类型', value: 'insuredCertificateType' },
+    { label: '联系方式', value: 'insureMobileNo' },
+    { label: '联系方式', value: 'insuredMobileNo' },
+    { label: '证件号码', value: 'insureCertificateNo' },
+    { label: '证件号码', value: 'insuredCertificateType' }
   ]
 }
 
 const dataTwo = {
   list: [
-    { label: '起保时间', value: '2023-10-01' },
-    { label: '终保时间', value: '2023-10-01' },
-    { label: '生效时间', value: '2023-10-01' }
+    { label: '起保时间', value: 'compulsoryInsuranceStartDate' },
+    { label: '终保时间', value: 'compulsoryInsuranceEndDate' },
+    { label: '生效时间', value: 'compulsoryInsuranceEnforceTime' }
   ]
 }
 
 const dataThree = {
   list: [
-    { label: '起保时间', value: '2023-10-01' },
-    { label: '终保时间', value: '2023-10-01' },
-    { label: '生效时间', value: '2023-10-01' }
+    { label: '起保时间', value: 'commercialInsuranceStartDate' },
+    { label: '终保时间', value: 'commercialInsuranceEndDate' },
+    { label: '生效时间', value: 'commercialInsuranceEnforceTime' }
   ]
-}
-
-const insuranceRecord = Array.from(Array(14)).map((_, index) => ({
-  key: index,
-  date: '2023-10-01',
-  store: '永达****店铺',
-  type: '售后服务'
-}))
-
-const onStoreChange = () => {
-  console.log('onStoreChange')
 }
 
 execute({ data: { vin: carStore.carNum } })
@@ -85,7 +90,9 @@ execute({ data: { vin: carStore.carNum } })
         :key="index"
       >
         <div class="w-80px">{{ label }}</div>
-        <div class="flex-1 ml-20px">{{ value }}</div>
+        <div class="flex-1 ml-20px">
+          {{ isFunction(value) ? value(detail) : get(detail, value, '') }}
+        </div>
       </div>
     </div>
     <template v-if="!isEmpty(data.list2)">
@@ -97,7 +104,9 @@ execute({ data: { vin: carStore.carNum } })
           :key="index"
         >
           <div class="w-80px">{{ label }}</div>
-          <div class="flex-1 ml-20px">{{ value }}</div>
+          <div class="flex-1 ml-20px">
+            {{ isFunction(value) ? value(detail) : get(detail, value, '') }}
+          </div>
         </div>
       </div>
     </template>
@@ -107,24 +116,30 @@ execute({ data: { vin: carStore.carNum } })
       <ReuseTemplate
         :data="dataOne"
         :title="{
-          left: { text: '中国平安财产保险股份有限公司', class: 'font-bold' },
-          right: { text: '总保费：3625.06', class: 'text-blue' }
+          left: { text: detail.insuranceCompany, class: 'font-bold' },
+          right: { text: `总保费：${detail.totalPremium}`, class: 'text-blue' }
         }"
       />
       <ReuseTemplate
         containerClass="mt-16px"
         :data="dataTwo"
         :title="{
-          left: { text: '交强险（保单号：10i53）', class: 'font-bold' },
-          right: { text: '¥625.06', class: 'font-bold' }
+          left: {
+            text: `交强险（保单号：${detail.compulsoryInsurancePolicyNo}）`,
+            class: 'font-bold'
+          },
+          right: { text: '-', class: 'font-bold' }
         }"
       />
       <ReuseTemplate
         containerClass="mt-16px"
         :data="dataThree"
         :title="{
-          left: { text: '商业险（保单号：102i48)', class: 'font-bold' },
-          right: { text: '¥2925.06', class: 'font-bold' }
+          left: {
+            text: `商业险（保单号：${detail.commercialInsurancePolicyNo})`,
+            class: 'font-bold'
+          },
+          right: { text: '-', class: 'font-bold' }
         }"
       />
     </div>
@@ -135,15 +150,16 @@ execute({ data: { vin: carStore.carNum } })
       <div class="flex-1 overflow-auto pb-10px">
         <div
           class="mx-10px mt-10px rounded-8px p-8px border-1px border-solid border-#e8e8e8 cursor-pointer"
-          v-for="{ key, date, store, type } in insuranceRecord"
+          v-for="({ key, issueTime, storeName }, index) in list"
           :key="key"
-          @click="onStoreChange"
+          :class="{ 'border-blue': index === current }"
+          @click="current = index"
         >
-          <div class="mt-4px">{{ date }}</div>
-          <div class="mt-4px">{{ store }}</div>
+          <div class="mt-4px">{{ issueTime }}</div>
+          <div class="mt-4px">{{ storeName }}</div>
           <div class="bar mt-4px">
-            <div>{{ type }}</div>
-            <div>{{ type }}</div>
+            <div>交强险：-</div>
+            <div>商业险：-</div>
           </div>
         </div>
       </div>
