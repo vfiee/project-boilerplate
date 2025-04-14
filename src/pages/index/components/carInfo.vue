@@ -3,12 +3,11 @@ import { useBoolean } from '@/hooks'
 import { useAxios } from '@/services'
 import { sensitivePhone } from '@/utils'
 import { Icon } from '@iconify/vue'
-import { get, isEmpty } from 'lodash-es'
+import dayjs from 'dayjs'
+import { get, isEmpty, isFunction } from 'lodash-es'
 import { computed } from 'vue'
 import { useCallStore, useCarStore } from '../stores'
 import EditCarInfo from './editCarInfo.vue'
-
-// 车架号
 
 const callStore = useCallStore()
 const carStore = useCarStore()
@@ -22,7 +21,7 @@ const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   module: 'crm',
   method: 'POST',
   data: {
-    xoql: `select id,license_plate_number__c,custom_union_name__c__c,brand_name__c,series_name__c,vehicle_name__c,vin__c,engine__c,date_the_vehicle_was_registered_with_the_DMV__c__c,custom_union_tel__c__c,custom_union_id__c,major_sender__c,Vehicle_name__c__c,Vehicle_tel__c__c,car_bind_id__c__c,car_bind_tel__c__c,car_bind_name__c__c from human_vehicle_relationship__c where vin__c='${carStore.carNum}'`
+    xoql: `select id,license_plate_number__c,custom_union_name__c,brand_name__c,series_name__c,vehicle_name__c,vin__c,engine__c,custom_union_tel__c,custom_union_id__c,major_sender__c,vehicle_name__c,use_tel__c,car_bind_tel__c,car_bind_name__c,date_the_vehicle_was_registered_with_the_DMV__c__c from human_vehicle_relationship__c where vin__c='${carStore.carNum}'`
   },
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -33,7 +32,7 @@ const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
 const carList = [
   {
     label: '- 所有人',
-    value: 'records[0].custom_union_name__c__c'
+    value: 'records[0].custom_union_name__c'
   },
   {
     label: '- 品牌',
@@ -58,7 +57,13 @@ const carList = [
   },
   {
     label: '- 注册日期',
-    value: 'records[0].date_the_vehicle_was_registered_with_the_DMV__c__c'
+    value: (data) => {
+      const item = get(
+        data,
+        'records[0].date_the_vehicle_was_registered_with_the_DMV__c__c'
+      )
+      return dayjs(item).format('YYYY-MM-DD')
+    }
   }
 ]
 // 保险信息
@@ -71,20 +76,20 @@ const insuranceList = [
 const carRelationshipList = computed(() => {
   return [
     {
-      name: 'records[0].custom_union_name__c__c',
-      tel: 'records[0].custom_union_tel__c__c',
+      name: 'records[0].custom_union_name__c',
+      tel: 'records[0].custom_union_tel__c',
       text: '所',
       cls: 'bg-blue'
     },
     {
-      name: 'records[0].Vehicle_name__c__c',
-      tel: 'records[0].Vehicle_tel__c__c',
+      name: 'records[0].use_name__c',
+      tel: 'records[0].use_tel__c',
       text: '用',
       cls: 'bg-green'
     },
     {
-      name: 'records[0].car_bind_name__c__c',
-      tel: 'records[0].car_bind_tel__c__c',
+      name: 'records[0].car_bind_name__c',
+      tel: 'records[0].car_bind_tel__c',
       text: '绑',
       cls: 'bg-yellow'
     }
@@ -121,7 +126,9 @@ execute()
       :class="cls"
       class="pl-10px mt-4px"
     >
-      {{ label }}：{{ get(data, value) || '-' }}
+      {{ label }}：{{
+        isFunction(value) ? value(data) : get(data, value) || '-'
+      }}
     </div>
     <a-divider class="px-10 w-280px min-w-280px mx-10px my-20px" />
     <!-- 保险信息 -->

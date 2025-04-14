@@ -42,18 +42,18 @@ const rules = {
 function initModel() {
   const { sensitive } = props
   const {
-    custom_union_name__c__c,
-    custom_union_tel__c__c,
-    Vehicle_name__c__c,
-    Vehicle_tel__c__c
+    custom_union_name__c,
+    custom_union_tel__c,
+    vehicle_name__c,
+    use_tel__c
   } = get(props, 'data.data') || {}
   merge(model.value, {
-    ownerName: custom_union_name__c__c,
+    ownerName: custom_union_name__c,
     ownerTel: sensitive
-      ? sensitivePhone(custom_union_tel__c__c)
-      : custom_union_tel__c__c,
-    userName: Vehicle_name__c__c,
-    userTel: sensitive ? sensitivePhone(Vehicle_tel__c__c) : Vehicle_tel__c__c
+      ? sensitivePhone(custom_union_tel__c)
+      : custom_union_tel__c,
+    userName: vehicle_name__c,
+    userTel: sensitive ? sensitivePhone(use_tel__c) : use_tel__c
   })
 }
 
@@ -63,10 +63,10 @@ async function handleSubmit() {
   execute({
     data: {
       data: {
-        custom_union_name__c__c: ownerName,
-        custom_union_tel__c__c: +ownerTel,
-        Vehicle_name__c__c: userName,
-        Vehicle_tel__c__c: +userTel
+        custom_union_name__c: ownerName,
+        custom_union_tel__c: +ownerTel,
+        vehicle_name__c: userName,
+        use_tel__c: +userTel
       }
     }
   })

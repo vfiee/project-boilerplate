@@ -1,5 +1,25 @@
 <script setup lang="jsx">
 import ButtonIcon from '@/components/buttonIcon/index.vue'
+import { useAxios } from '@/services'
+import { ref, watchEffect } from 'vue'
+import { useCarStore } from '../stores'
+
+const carStore = useCarStore()
+const currentStoreIndex = ref(0)
+const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
+  module: 'crm',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  data: {
+    xoql: `select id,task_info__c,recruit_personnel__c,createdAt,store__c, from ai_solicit_task_info__c where vin__c='WBA21EM02R9X41589'`
+  }
+})
+
+watchEffect(() => {
+  console.log(`data.value:`, data.value)
+})
 
 const columns1 = [
   {
@@ -65,6 +85,8 @@ const insuranceRecord = Array.from(Array(3)).map((_, index) => ({
 const onStoreChange = () => {
   console.log('onStoreChange')
 }
+
+execute()
 </script>
 <template>
   <div class="flex pb-16px info-container max-h-2000px">
