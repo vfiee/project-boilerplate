@@ -117,7 +117,10 @@ execute({ data: { vin: carStore.carNum } })
         :data="dataOne"
         :title="{
           left: { text: detail.insuranceCompany, class: 'font-bold' },
-          right: { text: `总保费：${detail.totalPremium}`, class: 'text-blue' }
+          right: {
+            text: `总保费：${detail.totalPremium || ''}`,
+            class: 'text-blue'
+          }
         }"
       />
       <ReuseTemplate
@@ -125,7 +128,9 @@ execute({ data: { vin: carStore.carNum } })
         :data="dataTwo"
         :title="{
           left: {
-            text: `交强险（保单号：${detail.compulsoryInsurancePolicyNo}）`,
+            text: `交强险（保单号：${
+              detail.compulsoryInsurancePolicyNo || ''
+            }）`,
             class: 'font-bold'
           },
           right: { text: '-', class: 'font-bold' }
@@ -136,7 +141,9 @@ execute({ data: { vin: carStore.carNum } })
         :data="dataThree"
         :title="{
           left: {
-            text: `商业险（保单号：${detail.commercialInsurancePolicyNo})`,
+            text: `商业险（保单号：${
+              detail.commercialInsurancePolicyNo || ''
+            })`,
             class: 'font-bold'
           },
           right: { text: '-', class: 'font-bold' }

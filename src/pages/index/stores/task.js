@@ -7,26 +7,7 @@ export const useTaskStore = defineStore('task', {
     list: [],
     fake: false
   }),
-  getters: {
-    // current(state) {
-    //   const globalStore = useGlobalStore()
-    //   // return {
-    //   //   outbound_call_time__c: '1722760219803',
-    //   //   createdAt: '1722758420261',
-    //   //   next_outbound_call_time__c: '1722760219803',
-    //   //   ownerName: '董骏',
-    //   //   mobile__c: '18338905792',
-    //   //   name: 'T20240804001',
-    //   //   follow_up_content__c: '',
-    //   //   status__c: ['首次外呼'],
-    //   //   name__c: '诸葛森旺',
-    //   //   store: '奥迪南京店',
-    //   //   id: '3407767281207313',
-    //   //   clue__c: '3407753974186967',
-    //   // }
-    //   return state.list.find((item) => item.id === globalStore.tid)
-    // },
-  },
+  getters: {},
   actions: {
     async load(param = {}) {
       if (this.fake && this.list.length) {

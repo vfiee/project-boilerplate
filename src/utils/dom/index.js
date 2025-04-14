@@ -18,7 +18,7 @@ export function getUrlParams() {
     objectId: '3748555821860946',
     recordId: '3748558651868205',
     access_token:
-      '8f91993f13589bc5ccdad5aa2d4d3cd61c35e17a898ed75b811da038f45a080c.MzQxNDgxMzcxOTE4NTQ0OA==0'
+      '4566b61f21f8a9deff347859d5b28637090cd89f42a149778db6dc39973aabd9.MzQxNDgxMzcxOTE4NTQ0OA==0'
   }
   for (let i = 0; i < pairQueryList.length; i++) {
     const [key, value] = pairQueryList[i].split('=')

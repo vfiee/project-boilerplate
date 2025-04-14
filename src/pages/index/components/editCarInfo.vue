@@ -46,7 +46,7 @@ function initModel() {
     custom_union_tel__c__c,
     Vehicle_name__c__c,
     Vehicle_tel__c__c
-  } = get(props, 'data.data')
+  } = get(props, 'data.data') || {}
   merge(model.value, {
     ownerName: custom_union_name__c__c,
     ownerTel: sensitive
