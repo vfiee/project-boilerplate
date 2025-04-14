@@ -5,7 +5,7 @@ import AfterSaleSolicitation from './afterSaleSolicitation.vue'
 import InsuranceInformation from './insuranceInformation.vue'
 import UserAdvantage from './userAdvantage.vue'
 
-const activeKey = ref('3')
+const activeKey = ref('1')
 </script>
 
 <template>

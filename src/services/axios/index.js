@@ -6,8 +6,6 @@ import { get, merge } from 'lodash-es'
 
 const { DEV, APP_ENV } = import.meta.env
 
-const { access_token } = getUrlParams()
-
 export const isTest = APP_ENV === 'test'
 
 const instance = axios.create({
@@ -25,6 +23,7 @@ instance.interceptors.request.use((config) => {
   const envStore = useEnvStore()
   const { modules } = envStore.currentEnv || {}
   const { proxyPrefix, url } = modules[requestModule] || {}
+  const { access_token } = getUrlParams()
   config.baseURL = DEV ? `/${proxyPrefix}` : url
   config.headers = merge({}, config.headers, {
     Authorization: `Bearer ${access_token}`

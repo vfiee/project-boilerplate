@@ -11,12 +11,13 @@ export function setDocumentTitle(title) {
   document.title = title
 }
 
-export function getUrlParams() {
-  const [_, queryString] = location.href.split('?')
+export function getUrlParams(
+  url = `/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765600042484782`
+) {
+  const href = decodeURIComponent(url || location.href)
+  const [_, queryString] = href.split('?')
   const pairQueryList = (queryString || '').split('&')
   const query = {
-    objectId: '3748555821860946',
-    recordId: '3748558651868205',
     access_token:
       '4566b61f21f8a9deff347859d5b28637090cd89f42a149778db6dc39973aabd9.MzQxNDgxMzcxOTE4NTQ0OA==0'
   }

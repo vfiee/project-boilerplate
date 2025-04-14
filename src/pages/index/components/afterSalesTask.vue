@@ -6,7 +6,7 @@ import CallBar from './callBar.vue'
 import Clue from './clue.vue'
 import FollowUp from './followUp.vue'
 import FollowUpRecords from './followUpRecords.vue'
-import SendMessage from './sendMessage.vue'
+import SendMessage from './seedMessage.vue'
 
 const { bool, setTrue } = useBoolean()
 const { bool: visible, setTrue: setVisibleTrue } = useBoolean()

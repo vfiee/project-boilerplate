@@ -35,7 +35,7 @@ export const useHistoryStore = defineStore('history', {
           url: `/rest/data/v2.0/scripts/api/callcenter/followUpRecordPermissions`,
           method: 'POST',
           data: {
-            id: taskStore.current.clue__c,
+            id: taskStore?.current?.clue__c,
             parent_id__c: taskStore.current.parentId
             // mobile__c: taskStore.current.mobile__c,
           }
@@ -68,8 +68,8 @@ export const useHistoryStore = defineStore('history', {
           url: '/rest/data/v2.0/scripts/api/callcenter/followUpRecords',
           method: 'POST',
           data: {
-            outbound_call_task__c: taskStore.current.id,
-            clue__c: taskStore.current.clue__c
+            outbound_call_task__c: taskStore?.current?.id,
+            clue__c: taskStore?.current?.clue__c
           }
         })
         await this.loadCurrent(res.data)

@@ -49,7 +49,7 @@ import { useAxios } from '@/services'
 const visible = defineModel('visible')
 
 const taskStore = useTaskStore()
-const userStore = useUserStore()
+// const userStore = useUserStore()
 
 const templateMap = ref({})
 const templates = computed(() => Object.values(templateMap.value))
@@ -126,7 +126,7 @@ const loadTemplateValues = async () => {
   const { fields } = templateMap.value[form.value.templateId]
   const xoql = `select ${fields
     .map((item) => item.field)
-    .join(',')} from clue__c where id = ${taskStore.current.clue__c}`
+    .join(',')} from clue__c where id = ${taskStore?.current?.clue__c}`
   await run({ data: { xoql } })
   form.value = {
     templateId: form.value.templateId

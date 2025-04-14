@@ -17,11 +17,6 @@ const { bool, setTrue } = useBoolean(false)
 const icon = computed(() =>
   !sensitive.value ? 'ph:eye-light' : 'solar:eye-closed-bold'
 )
-// 保单信息车架号： CHENJUN2019062101
-// 客户权益车架号： SUJLPKJ0987678057
-// SUJLPKJ0987678057,LSJE36099RS049731,AAABBB12423459999
-carStore.setCarNum('SUJLPKJ0987678057')
-
 // 获取车辆信息
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   module: 'crm',
