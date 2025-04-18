@@ -17,18 +17,17 @@ const props = defineProps({
     default: false
   }
 })
+
+const model = ref({})
+const visible = defineModel('visible')
 const { formRef, validate, clearValidate } = useAntdForm()
-const { isLoading, execute, data, error } = useAxios(
+const { isLoading, execute } = useAxios(
   `/rest/data/v2.0/xobjects/human_vehicle_relationship__c/${get(
     props,
     'data.data.id'
   )}`,
   { method: 'PATCH', module: 'crm' }
 )
-
-const visible = defineModel('visible')
-
-const model = ref({})
 
 const { defaultRequiredRule, patternRules } = useFormRules()
 
@@ -41,18 +40,14 @@ const rules = {
 
 function initModel() {
   const { sensitive } = props
-  const {
-    custom_union_name__c,
-    custom_union_tel__c,
-    vehicle_name__c,
-    use_tel__c
-  } = get(props, 'data.data') || {}
+  const { custom_union_name__c, custom_union_tel__c, use_name__c, use_tel__c } =
+    get(props, 'data.data') || {}
   merge(model.value, {
     ownerName: custom_union_name__c,
     ownerTel: sensitive
       ? sensitivePhone(custom_union_tel__c)
       : custom_union_tel__c,
-    userName: vehicle_name__c,
+    userName: use_name__c,
     userTel: sensitive ? sensitivePhone(use_tel__c) : use_tel__c
   })
 }
@@ -65,7 +60,7 @@ async function handleSubmit() {
       data: {
         custom_union_name__c: ownerName,
         custom_union_tel__c: +ownerTel,
-        vehicle_name__c: userName,
+        use_name__c: userName,
         use_tel__c: +userTel
       }
     }

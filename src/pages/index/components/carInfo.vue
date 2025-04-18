@@ -28,6 +28,15 @@ const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   }
 })
 
+// 获取车辆保险信息
+const { execute: execute2, data: data2 } = useAxios(
+  '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
+  {
+    module: 'crm',
+    method: 'POST'
+  }
+)
+
 // 车辆信息
 const carList = [
   {
@@ -62,14 +71,14 @@ const carList = [
         data,
         'records[0].date_the_vehicle_was_registered_with_the_DMV__c__c'
       )
-      return dayjs(item).format('YYYY-MM-DD')
+      return item ? dayjs(item).format('YYYY-MM-DD') : ''
     }
   }
 ]
 // 保险信息
 const insuranceList = [
-  { label: '- 交强止期', value: '' },
-  { label: '- 商业止期', value: '' },
+  { label: '- 交强止期', value: '[0].compulsoryInsuranceEndDate' },
+  { label: '- 商业止期', value: '[0].commercialInsuranceEndDate' },
   { label: '- 质保止期', value: '' }
 ]
 // 人车关系
@@ -111,7 +120,7 @@ const makePhoneCall = ({ telephone }) => {
   callStore.dial()
 }
 
-execute()
+Promise.all([execute(), execute2({ data: { vin: carStore.carNum } })])
 </script>
 
 <template>
@@ -138,7 +147,7 @@ execute()
       :class="cls"
       class="pl-10px mt-4px"
     >
-      {{ label }}：{{ get(data, value) || '-' }}
+      {{ label }}：{{ get(data2, value) || '-' }}
     </div>
     <a-divider class="px-10 w-280px min-w-280px mx-10px my-20px" />
     <!-- 人车关系 -->
