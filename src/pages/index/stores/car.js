@@ -8,9 +8,9 @@ export const useCarStore = defineStore('car', () => {
   const taskId = ref()
 
   // 车架号
-  const carNum = computed(() => get(car.value, 'vin_no__c'))
+  const carNum = computed(() => get(car.value, 'vin'))
   // 店铺id
-  const storeId = computed(() => get(car.value, 'store__c'))
+  const storeId = computed(() => get(car.value, 'storeId'))
 
   function setCar(carValue) {
     car.value = carValue
@@ -22,10 +22,6 @@ export const useCarStore = defineStore('car', () => {
       ...(carValue || {})
     }
   }
-
-  // 保单信息车架号： CHENJUN2019062101
-  // 客户权益车架号： SUJLPKJ0987678057
-  // SUJLPKJ0987678057,LSJE36099RS049731,AAABBB12423459999
 
   return {
     car,

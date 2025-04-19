@@ -6,6 +6,7 @@ import { Icon } from '@iconify/vue'
 import { useAxios } from '@/services'
 import { useCallStore, useCarStore } from '../stores'
 import dayjs from 'dayjs'
+import { getUrlParams } from '@/utils'
 
 defineOptions({ name: 'SendTextMessage' })
 
@@ -24,14 +25,14 @@ const rules = {
 const carSeriesOptions = [
   {
     label: carStore.car.series_name__c,
-    value: carStore.car.car_series_code__c
+    value: carStore.car.series_code
   }
 ]
 // 车辆品牌选项
 const carBrandOptions = [
   {
     label: carStore.car.brand_name__c,
-    value: carStore.car.brand__c
+    value: carStore.car.brandId
   }
 ]
 
@@ -99,6 +100,22 @@ const consultantOptions = computed(() => {
   })
 })
 
+const dateFeedback = async (dataFeedbackId) => {
+  const { recordId } = getUrlParams()
+  const { execute } = useAxios(
+    '/rest/data/v2.0/scripts/api/crmapi/up_submissionInfo/up',
+    {
+      method: 'POST',
+      module: 'crm',
+      data: {
+        id: recordId,
+        reservationId: dataFeedbackId
+      }
+    }
+  )
+  await execute()
+}
+
 const handleSubmit = async () => {
   await form.value.validate()
   const {
@@ -117,32 +134,35 @@ const handleSubmit = async () => {
   const dates = get(data.value, 'dates') || []
   const { times } = find(dates, { id: dateId }) || {}
   const { startTime } = find(times, { id: timeId }) || {}
-  const { execute, error } = useAxios(
-    '/rest/data/v2.0/scripts/api/central2/appointment_submission',
-    {
-      method: 'POST',
-      module: 'crm',
-      data: {
-        createUser: callStore.user.name,
-        genderCode: callStore.user.gender,
-        reservationOrigin: '205001',
-        guid: 'E81FC51F-8B07-6ADD-DBCD-32CBC08FC4EA',
-        name,
-        carNum,
-        phoneNum,
-        serveType,
-        brandCode,
-        seriesCode,
-        storeId: carStore.storeId,
-        reservationType,
-        isTmp: isTmp ? 1 : 0,
-        reservationAppointmentType,
-        reservationDateTime: startTime
-      }
+  const {
+    execute,
+    error,
+    data: dateData
+  } = useAxios('/rest/data/v2.0/scripts/api/central2/appointment_submission', {
+    method: 'POST',
+    module: 'crm',
+    data: {
+      createUser: callStore.user.name,
+      genderCode: callStore.user.gender,
+      reservationOrigin: '205001',
+      guid: 'E81FC51F-8B07-6ADD-DBCD-32CBC08FC4EA',
+      name,
+      carNum,
+      phoneNum,
+      serveType,
+      brandCode,
+      seriesCode,
+      storeId: carStore.storeId,
+      reservationType,
+      isTmp: isTmp ? 1 : 0,
+      reservationAppointmentType,
+      reservationDateTime: startTime
     }
-  )
+  })
   await execute()
   if (error.value) return
+  // 保存预约ID
+  dateFeedback(get(dateData.value, 'reservationId'))
   window.$message.success('预约成功')
   visible.value = false
 }
@@ -164,9 +184,9 @@ watch(visible, (isVisible) => {
     getDates()
     model.value = {
       ...model.value,
-      carNum: carStore.car.license_plate__c,
-      brandCode: carStore.car.brand__c,
-      seriesCode: carStore.car.car_series_code__c,
+      carNum: carStore.car.license_plate_number__c,
+      brandCode: carStore.car.brandId,
+      seriesCode: carStore.car.series_code,
       vinNo: carStore.car.vin_no__c,
       storeId: carStore.car.store__c,
       reservationAppointmentType: 208001
@@ -212,7 +232,7 @@ getDates()
     <a-form
       ref="form"
       v-model:model="model"
-      labelAlign="left"
+      labelAlign="right"
       :labelCol="{ span: 7 }"
       :rules="rules"
     >
@@ -246,7 +266,7 @@ getDates()
         </a-row>
         <a-row gutter="24">
           <a-col span="10">
-            <a-form-item required label="品牌" name="brandCode">
+            <a-form-item label="品牌" name="brandCode">
               <a-select
                 :options="carBrandOptions"
                 v-model:value="model.brandCode"
@@ -255,7 +275,7 @@ getDates()
             </a-form-item>
           </a-col>
           <a-col span="10">
-            <a-form-item required label="车系" name="seriesCode">
+            <a-form-item label="车系" name="seriesCode">
               <a-select
                 :options="carSeriesOptions"
                 v-model:value="model.seriesCode"

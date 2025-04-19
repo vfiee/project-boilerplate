@@ -133,7 +133,10 @@ execute({ data: { vin: carStore.carNum } })
             }）`,
             class: 'font-bold'
           },
-          right: { text: '-', class: 'font-bold' }
+          right: {
+            text: `¥${detail.commercialInsuranceActualPremium || 0}`,
+            class: 'font-bold'
+          }
         }"
       />
       <ReuseTemplate
@@ -146,7 +149,10 @@ execute({ data: { vin: carStore.carNum } })
             })`,
             class: 'font-bold'
           },
-          right: { text: '-', class: 'font-bold' }
+          right: {
+            text: `¥${detail.compulsoryInsuranceActualPremium || 0}`,
+            class: 'font-bold'
+          }
         }"
       />
     </div>
@@ -157,7 +163,16 @@ execute({ data: { vin: carStore.carNum } })
       <div class="flex-1 overflow-auto pb-10px">
         <div
           class="mx-10px mt-10px rounded-8px p-8px border-1px border-solid border-#e8e8e8 cursor-pointer"
-          v-for="({ key, issueTime, storeName }, index) in list"
+          v-for="(
+            {
+              key,
+              issueTime,
+              storeName,
+              commercialInsuranceActualPremium,
+              compulsoryInsuranceActualPremium
+            },
+            index
+          ) in list"
           :key="key"
           :class="{ 'border-blue': index === current }"
           @click="current = index"
@@ -165,8 +180,8 @@ execute({ data: { vin: carStore.carNum } })
           <div class="mt-4px">{{ issueTime }}</div>
           <div class="mt-4px">{{ storeName }}</div>
           <div class="bar mt-4px">
-            <div>交强险：-</div>
-            <div>商业险：-</div>
+            <div>交强险：{{ compulsoryInsuranceActualPremium }}</div>
+            <div>商业险：{{ commercialInsuranceActualPremium }}</div>
           </div>
         </div>
       </div>
