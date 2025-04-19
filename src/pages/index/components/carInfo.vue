@@ -67,8 +67,7 @@ const carList = [
 // 保险信息
 const insuranceList = [
   { label: '- 交强止期', value: '[0].compulsoryInsuranceEndDate' },
-  { label: '- 商业止期', value: '[0].commercialInsuranceEndDate' },
-  { label: '- 质保止期', value: '' }
+  { label: '- 商业止期', value: '[0].commercialInsuranceEndDate' }
 ]
 // 人车关系
 const carRelationshipList = computed(() => {

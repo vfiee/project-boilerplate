@@ -25,9 +25,11 @@ instance.interceptors.request.use((config) => {
   const { proxyPrefix, url } = modules[requestModule] || {}
   const { access_token } = getUrlParams()
   config.baseURL = DEV ? `/${proxyPrefix}` : url
-  config.headers = merge({}, config.headers, {
-    Authorization: `Bearer ${access_token}`
-  })
+  if (DEV) {
+    config.headers = merge({}, config.headers, {
+      Authorization: `Bearer ${access_token}`
+    })
+  }
   return config
 })
 
@@ -39,11 +41,11 @@ instance.interceptors.response.use((response) => {
   )
   if (skipResponseInterceptor) return response
   const data = get(response, 'data') || {}
-  const { code, msg } = data
-  if (+code == 200) {
+  const { code, msg, message } = data
+  if (code == 200) {
     return data
   }
-  window.$message.error(msg || '请求发生错误')
+  window.$message.error(msg || message || '请求发生错误')
   return Promise.reject(response)
 })
 

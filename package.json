@@ -4,8 +4,8 @@
   "version": "0.0.2",
   "type": "module",
   "scripts": {
-    "dev": "APP_ENV=test vite",
-    "build": "APP_ENV=production vite build",
+    "dev": "cross-env APP_ENV=test vite",
+    "build": "vite build",
     "preview": "vite preview",
     "release": "bumpp -y --all"
   },
