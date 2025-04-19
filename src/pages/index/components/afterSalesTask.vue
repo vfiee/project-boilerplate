@@ -1,5 +1,6 @@
 <script setup>
 import { useBoolean } from '@/hooks'
+import { closeDialog } from '@/services'
 import { Icon } from '@iconify/vue'
 import Appointment from './appointment.vue'
 import CallBar from './callBar.vue'
@@ -11,8 +12,10 @@ import SendMessage from './seedMessage.vue'
 const { bool, setTrue } = useBoolean()
 const { bool: visible, setTrue: setVisibleTrue } = useBoolean()
 
+//此js用于在开发页面注入ctx,以便在开发页面中使用ctx中的能力，后续加入版本管理
+
 function closeDrawer() {
-  console.log(`关闭弹框`)
+  closeDialog()
 }
 </script>
 <template>

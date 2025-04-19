@@ -1,5 +1,5 @@
 import { envs as envConfig } from '@/config'
-import { getStorage, setStorage } from '@/utils'
+import { setStorage } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -16,21 +16,6 @@ function setActiveEnv(envs, index) {
 }
 
 function getEnvs(configs) {
-  // 1. 查看本地缓存是否有当前环境,如果有对比配置是否发生改变
-  // 2. 本地没有缓存,查看用户传入的配置是否有设置active
-  // 3. 用户没有设置当前环境, 根据环境变量(process.env.NODE_ENV)匹配当前的环境
-  const storageEnv = getStorage(CURRENT_STORAGE_ENV_KEY)
-  if (storageEnv) {
-    const index = configs.findIndex((config) => config.env === storageEnv.env)
-    if (JSON.stringify(storageEnv) === JSON.stringify(configs[index])) {
-      return storageEnv
-    }
-    return setActiveEnv(configs, index)
-  }
-  const activeIndex = configs.findIndex((config) => !!config.active)
-  if (activeIndex !== -1) {
-    return setActiveEnv(configs, activeIndex)
-  }
   const envIndex = configs.findIndex(
     (config) => config.env === APP_ENV || 'production'
   )

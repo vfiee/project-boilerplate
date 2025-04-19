@@ -114,7 +114,7 @@ execute({ data: { vin: carStore.carNum } })
   <div class="w-300px bg-white h-full pt-16px rounded-md">
     <!-- 车辆基本信息 -->
     <div class="font-500 text-22px bar mb-20px">
-      {{ get(carStore.car, 'license_plate_number__c') }}
+      {{ get(carStore.car, 'license_plate__c') }}
     </div>
     <div
       v-for="({ label, value, class: cls }, index) in carList"

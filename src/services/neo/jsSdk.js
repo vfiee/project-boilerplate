@@ -19,11 +19,11 @@ export function addCrmEventListener() {
 }
 
 export function removeCrmEventListener() {
-  window.removeEventListener('message', crmHandleMessage)
+  window.removeEventListener('message', onCrmMessage)
 }
 
-function postMessage(actionType, data) {
-  window.parent.postMessage({ actionType, data }, '*')
+function postMessage(action, data) {
+  window.parent.postMessage({ action, data }, '*')
 }
 
 export const openIframe = (data) => postMessage('openIframe', data)
@@ -48,4 +48,8 @@ export const openCreateForm = (data) => {
   return new Promise((resolve, reject) => {
     promises['openCreateForm'] = { resolve, reject }
   })
+}
+
+export function closeDialog() {
+  postMessage('close_dialog')
 }

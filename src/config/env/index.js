@@ -19,7 +19,7 @@ export const envs = [
     modules: {
       common: {
         proxyPrefix: 'prod',
-        url: 'https://book.xxx.com'
+        url: 'https://api.xiaoshouyi.com'
       },
       crm: {
         proxyPrefix: 'prod-crm',
