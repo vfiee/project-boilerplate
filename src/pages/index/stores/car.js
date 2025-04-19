@@ -28,6 +28,7 @@ export const useCarStore = defineStore('car', () => {
   // SUJLPKJ0987678057,LSJE36099RS049731,AAABBB12423459999
 
   return {
+    car,
     taskId,
     carNum,
     storeId,

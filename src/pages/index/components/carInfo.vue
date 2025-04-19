@@ -16,20 +16,9 @@ const { bool, setTrue } = useBoolean(false)
 const icon = computed(() =>
   !sensitive.value ? 'ph:eye-light' : 'solar:eye-closed-bold'
 )
-// 获取车辆信息
-const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
-  module: 'crm',
-  method: 'POST',
-  data: {
-    xoql: `select id,license_plate_number__c,custom_union_name__c,brand_name__c,series_name__c,vehicle_name__c,vin__c,engine__c,custom_union_tel__c,custom_union_id__c,major_sender__c,vehicle_name__c,use_tel__c,car_bind_tel__c,car_bind_name__c,date_the_vehicle_was_registered_with_the_DMV__c__c from human_vehicle_relationship__c where vin__c='${carStore.carNum}'`
-  },
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-})
 
 // 获取车辆保险信息
-const { execute: execute2, data: data2 } = useAxios(
+const { execute: execute, data: data2 } = useAxios(
   '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
   {
     module: 'crm',
@@ -41,35 +30,35 @@ const { execute: execute2, data: data2 } = useAxios(
 const carList = [
   {
     label: '- 所有人',
-    value: 'records[0].custom_union_name__c'
+    value: 'custom_union_name__c'
   },
   {
     label: '- 品牌',
-    value: 'records[0].brand_name__c'
+    value: 'brand_name__c'
   },
   {
     label: '- 车系',
-    value: 'records[0].series_name__c'
+    value: 'series_name__c'
   },
   {
     label: '- 车型',
     class: 'text-ellipsis',
-    value: 'records[0].vehicle_name__c'
+    value: 'vehicle_name__c'
   },
   {
     label: '- 车架号',
-    value: 'records[0].vin__c'
+    value: 'vin__c'
   },
   {
     label: '- 发动机号',
-    value: 'records[0].engine__c'
+    value: 'engine__c'
   },
   {
     label: '- 注册日期',
     value: (data) => {
       const item = get(
         data,
-        'records[0].date_the_vehicle_was_registered_with_the_DMV__c__c'
+        'date_the_vehicle_was_registered_with_the_DMV__c__c'
       )
       return item ? dayjs(item).format('YYYY-MM-DD') : ''
     }
@@ -85,32 +74,32 @@ const insuranceList = [
 const carRelationshipList = computed(() => {
   return [
     {
-      name: 'records[0].custom_union_name__c',
-      tel: 'records[0].custom_union_tel__c',
+      name: 'custom_union_name__c',
+      tel: 'custom_union_tel__c',
       text: '所',
       cls: 'bg-blue'
     },
     {
-      name: 'records[0].use_name__c',
-      tel: 'records[0].use_tel__c',
+      name: 'use_name__c',
+      tel: 'use_tel__c',
       text: '用',
       cls: 'bg-green'
     },
     {
-      name: 'records[0].car_bind_name__c',
-      tel: 'records[0].car_bind_tel__c',
+      name: 'car_bind_name__c',
+      tel: 'car_bind_tel__c',
       text: '绑',
       cls: 'bg-yellow'
     }
   ].map(({ name, tel, ...args }) => {
-    const telephone = get(data.value, tel)
+    const telephone = get(carStore.car, tel)
     const sensitiveTel = telephone ? sensitivePhone(telephone) : ''
     return {
       ...args,
       telephone,
       sensitiveTel,
       hasPhone: !!telephone,
-      name: get(data.value, name)
+      name: get(carStore.car, name)
     }
   })
 })
@@ -119,15 +108,14 @@ const makePhoneCall = ({ telephone }) => {
   $('#dialout_input').val(telephone)
   callStore.dial()
 }
-
-Promise.all([execute(), execute2({ data: { vin: carStore.carNum } })])
+execute({ data: { vin: carStore.carNum } })
 </script>
 
 <template>
   <div class="w-300px bg-white h-full pt-16px rounded-md">
     <!-- 车辆基本信息 -->
     <div class="font-500 text-22px bar mb-20px">
-      {{ get(data, 'records[0].license_plate_number__c') }}
+      {{ get(carStore.car, 'license_plate_number__c') }}
     </div>
     <div
       v-for="({ label, value, class: cls }, index) in carList"
@@ -136,7 +124,9 @@ Promise.all([execute(), execute2({ data: { vin: carStore.carNum } })])
       class="pl-10px mt-4px"
     >
       {{ label }}：{{
-        isFunction(value) ? value(data) : get(data, value) || '-'
+        isFunction(value)
+          ? value(carStore.car)
+          : get(carStore.car, value) || '-'
       }}
     </div>
     <a-divider class="px-10 w-280px min-w-280px mx-10px my-20px" />
@@ -195,7 +185,7 @@ Promise.all([execute(), execute2({ data: { vin: carStore.carNum } })])
       :sensitive="sensitive"
       :data="{
         carRelationshipList,
-        data: get(data, 'records[0]')
+        data: carStore.car
       }"
     />
   </div>

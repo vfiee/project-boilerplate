@@ -1,92 +1,59 @@
 <script setup>
 import dayjs from 'dayjs'
-import { find, random } from 'lodash-es'
-import { ref, computed, nextTick } from 'vue'
+import { find } from 'lodash-es'
+import { computed } from 'vue'
 
-const maxDAYNumber = 30
-const currentDate = ref(dayjs())
-// 可操作的日期范围
-const dateRange = computed(() => {
-  return Array.from(Array(maxDAYNumber)).map((_, index) => {
-    const date = currentDate.value.add(index, 'day')
-    return {
-      date,
-      text: date.format('MM-DD'),
-      weekText: date.format('dddd')
-    }
-  })
-})
-// 每天可预约的时间段
-const dateTimes = Array.from(Array(20)).map((_, index) => {
-  return {
-    id: index,
-    text: `${index + 1}:00`,
-    disabled: random(0, 10) > 5
+const props = defineProps({
+  dates: {
+    type: Array,
+    default: () => []
   }
 })
 
-// {
-//   date // 当前选择的日期,dayjs
-//   timeText // 当前选择的时间段
-//   timeId // 当前选择的时间段ID
-// }
-const value = defineModel()
-const activeTab = ref()
-const activeTimeId = ref()
+const model = defineModel()
 
-const activeDate = computed(() =>
-  find(dateRange.value, { text: activeTab.value })
-)
-
-const activeTime = computed(() => find(dateTimes, { id: activeTimeId.value }))
+// 每天可预约的时间段
+const dateTimes = computed(() => {
+  const { times } = find(props.dates, { id: model.value.dateId }) || {}
+  return times || []
+})
 
 const handleDate = ({ id }) => {
-  activeTimeId.value = id
-  value.value = {
-    date: activeDate.value.date,
-    timeText: activeTime.value?.text,
-    timeId: activeTime.value?.id
+  model.value = {
+    ...model.value,
+    timeId: id
   }
 }
-
-const initState = () => {
-  // 初始化当前选中的tab标签
-  if (value.value?.date) {
-    activeTab.value = value.value.date?.format('MM-DD')
-  } else {
-    activeTab.value = dayjs().format('MM-DD')
-  }
-
-  if (value.value?.timeId) {
-    activeTimeId.value = value.value.timeId
-  }
-}
-
-initState()
 </script>
 <template>
   <div>
-    <a-tabs v-model:activeKey="activeTab">
-      <a-tab-pane v-for="{ text, weekText } in dateRange" :key="text">
+    <a-tabs v-model:activeKey="model.dateId">
+      <a-tab-pane v-for="{ date, id } in dates" :key="id">
         <template #tab>
-          <div>{{ text }}</div>
-          <div>{{ weekText }}</div>
+          <div>{{ date }}</div>
+          <div>{{ dayjs(date).format('dddd') }}</div>
         </template>
       </a-tab-pane>
     </a-tabs>
     <div class="grid grid-cols-5 gap-16px bg-white">
       <div
         v-for="date in dateTimes"
-        :key="date.text"
+        :key="date.id"
         class="text-center h-40px line-height-40px rounded border border-#ededed border-solid cursor-pointer"
         :class="{
-          'bg-#eee pointer-events-none cursor-not-allowed': date.disabled,
-          'bg-blue text-white font-bold': date.id === activeTimeId
+          'bg-#eee pointer-events-none cursor-not-allowed': date.status != 1,
+          'bg-blue text-white font-bold': date.id == model.timeId
         }"
         @click="handleDate(date)"
       >
-        {{ date.text }}
+        {{ date.startTimeStr }}
       </div>
     </div>
   </div>
 </template>
+
+<style lang="less">
+.ant-tabs-tab-btn {
+  text-align: center;
+}
+</style>
