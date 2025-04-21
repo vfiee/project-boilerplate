@@ -12,11 +12,8 @@ export function setDocumentTitle(title) {
   if (!title) return
   document.title = title
 }
-// 第一条：3765874092508183
-// 第二条：3765873929177173
-// 第三条：3748558651868205
 export function getUrlParams(
-  url = `/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765873929177173`
+  url = `/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765874092508183`
 ) {
   const href = decodeURIComponent(url || location.href)
   const [_, queryString] = href.split('?')

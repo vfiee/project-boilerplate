@@ -5,7 +5,6 @@ import AppointmentDate from './appointmentDate.vue'
 import { Icon } from '@iconify/vue'
 import { useAxios } from '@/services'
 import { useCallStore, useCarStore } from '../stores'
-import dayjs from 'dayjs'
 import { getUrlParams } from '@/utils'
 
 defineOptions({ name: 'SendTextMessage' })
@@ -48,23 +47,18 @@ const serveOptions = [
   { label: '加装', value: '202004' }
 ]
 
-// 设置选择的时间
-function setSelectedTime() {
-  const { dateId, timeId } = model.value.date || {}
-  const dates = get(data.value, 'dates') || []
-  const { times } = find(dates, { id: dateId }) || {}
-  const { startTime } = find(times, { id: timeId }) || {}
-  selectedTimeText.value = startTime
-}
-
 function nextStep() {
   currentStep.value = 1
-  setSelectedTime()
+  const { dateId, timeId } = model.value.date || {}
+  const dates = get(data.value, 'dates') || []
+  const { date, times } = find(dates, { id: dateId }) || {}
+  const { startTimeStr } = find(times, { id: timeId }) || {}
+  selectedTimeText.value = `${date} ${startTimeStr}`
   // 获取接口选项
   getOptions({
     data: {
       storeId: carStore.storeId,
-      date: dayjs(selectedTimeText.value).format('YYYY-MM-DD HH-MM')
+      date: selectedTimeText.value
     }
   })
 }
@@ -91,10 +85,17 @@ const { data: res, execute: getOptions } = useAxios(
 const consultantOptions = computed(() => {
   const consultants = get(res.value, 'employeeList') || []
   return consultants.map((item) => {
+    const {
+      name,
+      code,
+      count = 0,
+      receptionNum = 0,
+      selective = true
+    } = item || {}
     return {
-      ...item,
-      label: item.name,
-      value: 'code'
+      value: code,
+      disabled: !selective,
+      label: `${name} 接待：${count}/${receptionNum}`
     }
   })
 })
@@ -126,6 +127,7 @@ const handleSubmit = async () => {
     name,
     phoneNum,
     serveType,
+    receiveCode,
     reservationType,
     reservationAppointmentType
   } = model.value || {}
@@ -151,6 +153,7 @@ const handleSubmit = async () => {
       serveType,
       brandCode,
       seriesCode,
+      receiveCode,
       storeId: carStore.storeId,
       reservationType,
       isTmp: isTmp ? 1 : 0,

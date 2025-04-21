@@ -34,7 +34,6 @@ instance.interceptors.request.use((config) => {
 })
 
 instance.interceptors.response.use((response) => {
-  debugger
   const skipResponseInterceptor = !get(
     response,
     'config.interceptors.response',
