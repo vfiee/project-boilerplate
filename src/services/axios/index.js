@@ -34,6 +34,7 @@ instance.interceptors.request.use((config) => {
 })
 
 instance.interceptors.response.use((response) => {
+  debugger
   const skipResponseInterceptor = !get(
     response,
     'config.interceptors.response',
@@ -42,9 +43,7 @@ instance.interceptors.response.use((response) => {
   if (skipResponseInterceptor) return response
   const data = get(response, 'data') || {}
   const { code, msg, message } = data
-  if (code == 200) {
-    return data
-  }
+  if (code == 200) return data
   window.$message.error(msg || message || '请求发生错误')
   return Promise.reject(response)
 })
