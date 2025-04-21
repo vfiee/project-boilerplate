@@ -3,6 +3,7 @@ import { createReusableTemplate } from '@vueuse/core'
 import { isFunction, get, isEmpty } from 'lodash-es'
 import { watch } from 'vue'
 import { useAxios } from '@/services'
+import { sensitivePhone } from '@/utils'
 
 const props = defineProps({
   record: {
@@ -89,7 +90,8 @@ const carInfoList = [
     label: '手机号码/信用代码：',
     value: (data) => {
       const { receiveUserMobile, creditCode } = data || {}
-      return `${receiveUserMobile || ''}/${creditCode || ''}`
+      const phone = sensitivePhone(receiveUserMobile)
+      return `${phone || ''}/${creditCode || ''}`
     }
   },
   {

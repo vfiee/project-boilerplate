@@ -1,5 +1,6 @@
 <script setup>
 import { useAxios } from '@/services'
+import { sensitivePhone } from '@/utils'
 import { createReusableTemplate } from '@vueuse/core'
 import { get, isEmpty, isFunction } from 'lodash-es'
 import { computed, ref } from 'vue'
@@ -44,8 +45,20 @@ const dataOne = {
     { label: '被保人', value: 'insuredName' },
     { label: '证件类型', value: 'insureCertificateType' },
     { label: '证件类型', value: 'insuredCertificateType' },
-    { label: '联系方式', value: 'insureMobileNo' },
-    { label: '联系方式', value: 'insuredMobileNo' },
+    {
+      label: '联系方式',
+      value: (data) => {
+        const phone = get(data, 'insureMobileNo')
+        return phone ? sensitivePhone(phone) : ''
+      }
+    },
+    {
+      label: '联系方式',
+      value: (data) => {
+        const phone = get(data, 'insuredMobileNo')
+        return phone ? sensitivePhone(phone) : ''
+      }
+    },
     { label: '证件号码', value: 'insureCertificateNo' },
     { label: '证件号码', value: 'insuredCertificateType' }
   ]

@@ -1,8 +1,10 @@
 <script setup lang="jsx">
 import { useBoolean } from '@/hooks'
 import { useAxios } from '@/services'
+import { sensitivePhone } from '@/utils'
 import { Icon } from '@iconify/vue'
 import { createReusableTemplate } from '@vueuse/core'
+import dayjs from 'dayjs'
 import { toLength } from 'lodash-es'
 import { ref } from 'vue'
 import { useCarStore } from '../stores'
@@ -21,7 +23,8 @@ const { isLoading, data, execute } = useAxios(
     method: 'POST',
     data: {
       source: 'CRM',
-      belongVin: carStore.carNum
+      belongVin: carStore.carNum,
+      applyFirm: carStore.storeId
     }
   }
 )
@@ -36,7 +39,8 @@ const {
   data: {
     source: 'CRM',
     itemType: 'integral',
-    belongVin: carStore.carNum
+    belongVin: carStore.carNum,
+    applyFirm: carStore.storeId
   }
 })
 
@@ -50,7 +54,8 @@ const {
   data: {
     source: 'CRM',
     itemType: 'balance',
-    belongVin: carStore.carNum
+    belongVin: carStore.carNum,
+    applyFirm: carStore.storeId
   }
 })
 
@@ -92,10 +97,12 @@ const columnsOne = [
     dataIndex: 'belongName',
     title: '客户姓名/手机号',
     customRender: ({ record }) => {
+      const phone = sensitivePhone(record.belongPhone)
+
       return (
         <div>
           <div>{record.belongName || '-'}</div>
-          <div>{record.belongPhone || '-'}</div>
+          <div>{phone || '-'}</div>
         </div>
       )
     }
@@ -106,10 +113,12 @@ const columnsOne = [
     title: '发放形式/期限',
     customRender: ({ record }) => {
       const { bizTypeName, couponUseFulLifeEnd } = record
+      const date = dayjs(couponUseFulLifeEnd)
+      const dateStr = date.isValid() ? date.format('YYYY-MM-DD') : null
       return (
         <div>
           <div>{bizTypeName || '-'}</div>
-          <div>{couponUseFulLifeEnd || '-'}</div>
+          <div>{dateStr || '-'}</div>
         </div>
       )
     }
@@ -132,19 +141,10 @@ const columnsTwo = [
     dataIndex: '1-2',
     title: '有效期限',
     customRender: ({ record }) => {
-      const {
-        validType,
-        validValue,
-        couponUseFulLifeStart,
-        couponUseFulLifeEnd
-      } = record
-      return (
-        <div>
-          {validType == 1
-            ? validValue
-            : `${couponUseFulLifeStart} - ${couponUseFulLifeEnd}` || '-'}
-        </div>
-      )
+      const { couponUseFulLifeEnd } = record
+      const date = dayjs(couponUseFulLifeEnd)
+      const dateStr = date.isValid() ? date.format('YYYY-MM-DD') : null
+      return <div>{dateStr || '-'}</div>
     }
   },
   {
@@ -157,9 +157,10 @@ const columnsTwo = [
     dataIndex: '1-4',
     title: '手机号码/信用代码',
     customRender: ({ record }) => {
+      const phone = sensitivePhone(record.belongPhone)
       return (
         <div>
-          <div>{record.belongPhone || '-'}</div>
+          <div>{phone || '-'}</div>
           <div>{record.belongIdCardNo || '-'}</div>
         </div>
       )
@@ -188,9 +189,10 @@ const columnsThree = [
     dataIndex: '3-4',
     title: '手机号码/信用代码',
     customRender: ({ record }) => {
+      const phone = sensitivePhone(record.belongPhone)
       return (
         <div>
-          <div>{record.belongPhone || '-'}</div>
+          <div>{phone || '-'}</div>
           <div>{record.belongIdCardNo || '-'}</div>
         </div>
       )
