@@ -10,10 +10,11 @@ export const envs = [
     }
   },
   {
-    env: 'production',
     name: '正式环境',
+    env: 'production',
     modules: {
       common: {
+        enableProxy: false,
         proxyPrefix: 'prod',
         url: '/service/api/proxy?request='
       }

@@ -17,6 +17,7 @@ function setActiveEnv(envs, index) {
 
 function getEnvs(configs) {
   const targetEnv = APP_ENV || 'production'
+  debugger
   const envIndex = configs.findIndex((item) => item.env === targetEnv)
   return setActiveEnv(configs, envIndex)
 }

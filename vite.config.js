@@ -4,12 +4,13 @@ import { URL, fileURLToPath } from 'node:url'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig, loadEnv } from 'vite'
 import { setupVitePlugins } from './build'
-import { envs } from './src/config/env'
+import { envs as envList } from './src/config/env'
 
 const getProxyConfig = (envs = []) => {
   return envs
     .map((config) => Object.values(config.modules))
     .flat()
+    .filter(({ enableProxy = true } = {}) => enableProxy)
     .reduce((acc, { proxyPrefix, url } = {}) => {
       acc[`/${proxyPrefix}`] = {
         target: url,
@@ -35,12 +36,12 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
+    envPrefix: ['VITE_', 'APP_'],
     server: {
       open: true,
       port: 4433,
       host: '0.0.0.0',
-      envPrefix: ['VITE_', 'APP_'],
-      proxy: getProxyConfig(envs)
+      proxy: getProxyConfig(envList)
     },
     build: {
       sourcemap: viteEnv.PROD,

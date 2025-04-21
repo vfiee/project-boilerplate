@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "type": "module",
   "scripts": {
-    "dev": "cross-env APP_ENV=test vite",
+    "dev": "APP_ENV=test vite",
     "build:test": "cross-env APP_ENV=test vite build",
     "build": "cross-env APP_ENV=production vite build",
     "preview": "vite preview",
