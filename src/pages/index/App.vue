@@ -17,7 +17,7 @@ const load = async () => {
   await callStore.loadUser()
   const { data, execute } = useAxios(
     `/rest/sc/v1.0/callcenter/getSeatPhoneByUserId?userId=${callStore.user.id}`,
-    { module: 'crm', method: 'GET', interceptors: { response: false } }
+    {  method: 'GET', interceptors: { response: false } }
   )
   await execute()
   const { callCenterAccount, callCenterLoginPass } =

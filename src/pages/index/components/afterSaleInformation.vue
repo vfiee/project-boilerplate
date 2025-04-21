@@ -8,7 +8,7 @@ import { useCarStore } from '../stores'
 const carStore = useCarStore()
 const currentStoreIndex = ref(0)
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
-  module: 'crm',
+  
   method: 'POST',
   data: {
     xoql: `select id,store__c,createdAt,status__c,order_type__c,store_name__c,factory_code__c,employee_name__c,created__c from dop_order__c where store__c='${carStore.storeId}' AND vin_no__c='${carStore.carNum}'`

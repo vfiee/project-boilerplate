@@ -51,7 +51,7 @@ export const useCallStore = defineStore('call', {
       const { data, execute } = useAxios(
         '/rest/data/v2.0/scripts/api/callcenter/user',
         {
-          module: 'crm',
+          
           method: 'GET',
           interceptors: {
             response: false

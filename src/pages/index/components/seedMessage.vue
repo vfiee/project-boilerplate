@@ -13,7 +13,7 @@ const visible = defineModel('visible')
 // 短信模版列表
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   method: 'POST',
-  module: 'crm',
+  
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
@@ -44,7 +44,7 @@ const messageTemplateFields = computed(() => {
 // 品牌列表
 const { execute: run, data: data2 } = useAxios('/rest/data/v2.0/query/xoql', {
   method: 'POST',
-  module: 'crm',
+  
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   }

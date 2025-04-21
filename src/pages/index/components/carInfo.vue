@@ -21,7 +21,6 @@ const icon = computed(() =>
 const { execute: execute, data: data2 } = useAxios(
   '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
   {
-    module: 'crm',
     method: 'POST'
   }
 )

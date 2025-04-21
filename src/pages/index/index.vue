@@ -12,7 +12,7 @@ const carStore = useCarStore()
 
 // 获取当前行数据
 const { execute, data, isLoading } = useAxios('/rest/data/v2.0/query/xoql', {
-  module: 'crm',
+  
   method: 'POST',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -23,7 +23,7 @@ const { execute, data, isLoading } = useAxios('/rest/data/v2.0/query/xoql', {
 const { execute: executeCarRecordDetail, data: carDetailData } = useAxios(
   '/rest/data/v2.0/scripts/api/crmapi/getFmaer/get',
   {
-    module: 'crm',
+    
     method: 'get',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -35,7 +35,7 @@ const { execute: executeCarRecordDetail, data: carDetailData } = useAxios(
 const { execute: getCarRelation, data: carRelationData } = useAxios(
   '/rest/data/v2.0/query/xoql',
   {
-    module: 'crm',
+    
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -52,7 +52,8 @@ async function getCarRecordDetail() {
     'vin_no__c',
     'license_plate__c',
     'car_series__c',
-    'brand__c'
+    'brand__c',
+    'clue_number__c'
   ]
   await execute({
     data: {

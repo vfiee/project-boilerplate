@@ -7,7 +7,7 @@ import { useCarStore } from '../stores'
 const carStore = useCarStore()
 const currentStoreIndex = ref(0)
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
-  module: 'crm',
+  
   method: 'POST',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'

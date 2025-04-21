@@ -63,7 +63,7 @@ function nextStep() {
   // 获取接口选项
   getOptions({
     data: {
-      storeId: '0000',
+      storeId: carStore.storeId,
       date: dayjs(selectedTimeText.value).format('YYYY-MM-DD HH-MM')
     }
   })
@@ -77,15 +77,14 @@ function prevStep() {
 const { data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central2/appointment_time',
   {
-    method: 'POST',
-    module: 'crm'
+    method: 'POST'
   }
 )
 
 // 可接待顾问接口
 const { data: res, execute: getOptions } = useAxios(
   '/rest/data/v2.0/scripts/api/central2/consultants_available',
-  { method: 'POST', module: 'crm' }
+  { method: 'POST' }
 )
 
 // 可接待顾问选项
@@ -106,7 +105,7 @@ const dateFeedback = async (dataFeedbackId) => {
     '/rest/data/v2.0/scripts/api/crmapi/up_submissionInfo/up',
     {
       method: 'POST',
-      module: 'crm',
+
       data: {
         id: recordId,
         reservationId: dataFeedbackId
@@ -140,7 +139,7 @@ const handleSubmit = async () => {
     data: dateData
   } = useAxios('/rest/data/v2.0/scripts/api/central2/appointment_submission', {
     method: 'POST',
-    module: 'crm',
+
     data: {
       createUser: callStore.user.name,
       genderCode: callStore.user.gender,

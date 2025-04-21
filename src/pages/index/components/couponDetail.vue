@@ -19,7 +19,7 @@ const { execute, data, isLoading } = useAxios(
   '/rest/data/v2.0/scripts/api/central/getCouponDetailYD',
   {
     method: 'POST',
-    module: 'crm',
+    
     interceptors: {
       response: false
     }

@@ -18,7 +18,7 @@ const [DefineTemplate, CardTemplate] = createReusableTemplate()
 const { isLoading, data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/card_Coupon_List',
   {
-    module: 'crm',
+    
     method: 'POST',
     data: {
       source: 'CRM',

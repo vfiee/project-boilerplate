@@ -22,9 +22,9 @@ instance.interceptors.request.use((config) => {
   const { module: requestModule = 'common' } = config || {}
   const envStore = useEnvStore()
   const { modules } = envStore.currentEnv || {}
-  const { proxyPrefix } = modules[requestModule] || {}
+  const { proxyPrefix, url } = modules[requestModule] || {}
   const { access_token } = getUrlParams()
-  config.baseURL = DEV ? `/${proxyPrefix}` : `/service/api/proxy?request=`
+  config.baseURL = DEV ? `/${proxyPrefix}` : url
   if (DEV) {
     config.headers = merge({}, config.headers, {
       Authorization: `Bearer ${access_token}`

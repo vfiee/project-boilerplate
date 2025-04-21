@@ -26,7 +26,7 @@ const { isLoading, execute } = useAxios(
     props,
     'data.data.id'
   )}`,
-  { method: 'PATCH', module: 'crm' }
+  { method: 'PATCH',  }
 )
 
 const { defaultRequiredRule, patternRules } = useFormRules()

@@ -65,7 +65,7 @@ const loading = ref(false)
 
 const { execute, data } = useAxios('/rest/data/v2.0/query/xoql', {
   method: 'POST',
-  module: 'crm',
+  
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
@@ -116,7 +116,7 @@ const loadTemplates = async () => {
 
 const { execute: run, data: data2 } = useAxios('/rest/data/v2.0/query/xoql', {
   method: 'POST',
-  module: 'crm',
+  
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   }

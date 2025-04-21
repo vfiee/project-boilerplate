@@ -11,7 +11,6 @@ const carStore = useCarStore()
 const { data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/crmGetInsuranceList',
   {
-    module: 'crm',
     method: 'POST'
   }
 )

@@ -1,4 +1,7 @@
 <script setup>
+import { useAxios } from '@/services'
+import { useCarStore } from '../stores'
+
 const columns = [
   {
     title: '跟进时间',
@@ -52,6 +55,19 @@ const dataSource = [
     remark: '备注信息'
   }
 ]
+
+const carStore = useCarStore()
+const { data, execute } = useAxios(
+  '/rest/data/v2.0/scripts/api/central/getFirstMaintenanceLeadFollowupRecords',
+  {
+    
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+)
+execute({ data: { dataId: carStore.car.clue_number__c } })
 </script>
 <template>
   <a-tabs>

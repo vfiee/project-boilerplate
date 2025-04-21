@@ -6,10 +6,6 @@ export const envs = [
       common: {
         proxyPrefix: 'test',
         url: 'https://api-sandbox.xiaoshouyi.com'
-      },
-      crm: {
-        proxyPrefix: 'crm',
-        url: 'https://api-sandbox.xiaoshouyi.com'
       }
     }
   },
@@ -19,11 +15,7 @@ export const envs = [
     modules: {
       common: {
         proxyPrefix: 'prod',
-        url: 'https://api.xiaoshouyi.com'
-      },
-      crm: {
-        proxyPrefix: 'prod-crm',
-        url: 'https://api.xiaoshouyi.com'
+        url: '/service/api/proxy?request='
       }
     }
   }

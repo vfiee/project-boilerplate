@@ -13,15 +13,11 @@ const { bool, setTrue } = useBoolean()
 const { bool: visible, setTrue: setVisibleTrue } = useBoolean()
 
 //此js用于在开发页面注入ctx,以便在开发页面中使用ctx中的能力，后续加入版本管理
-
-function closeDrawer() {
-  closeDialog()
-}
 </script>
 <template>
   <div class="bg-white rounded px-10px transition-all">
     <div class="flex-y-center h-50px">
-      <div class="flex-y-center text-#999 cursor-pointer" @click="closeDrawer">
+      <div class="flex-y-center text-#999 cursor-pointer" @click="closeDialog">
         <Icon icon="famicons:arrow-back" class="text-20px" />
         <span class="ml-6px">返回</span>
       </div>
