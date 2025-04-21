@@ -18,7 +18,6 @@ const [DefineTemplate, CardTemplate] = createReusableTemplate()
 const { isLoading, data, execute } = useAxios(
   '/rest/data/v2.0/scripts/api/central/card_Coupon_List',
   {
-    
     method: 'POST',
     data: {
       source: 'CRM',
@@ -106,21 +105,11 @@ const columnsOne = [
     dataIndex: 'bizTypeName',
     title: '发放形式/期限',
     customRender: ({ record }) => {
-      const {
-        validType,
-        bizTypeName,
-        validValue,
-        couponUseFulLifeStart,
-        couponUseFulLifeEnd
-      } = record
+      const { bizTypeName, couponUseFulLifeEnd } = record
       return (
         <div>
           <div>{bizTypeName || '-'}</div>
-          <div>
-            {validType == 1
-              ? validValue
-              : `${couponUseFulLifeStart} - ${couponUseFulLifeEnd}` || '-'}
-          </div>
+          <div>{couponUseFulLifeEnd || '-'}</div>
         </div>
       )
     }

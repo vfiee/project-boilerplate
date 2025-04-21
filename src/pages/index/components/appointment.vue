@@ -329,7 +329,7 @@ getDates()
             >
               <a-radio-group v-model:value="model.reservationAppointmentType">
                 <a-radio :value="208001">自行到店</a-radio>
-                <a-radio :value="208002">取送车</a-radio>
+                <!-- <a-radio :value="208002">取送车</a-radio> -->
               </a-radio-group>
             </a-form-item>
           </a-col>
