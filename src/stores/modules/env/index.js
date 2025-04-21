@@ -16,9 +16,8 @@ function setActiveEnv(envs, index) {
 }
 
 function getEnvs(configs) {
-  const envIndex = configs.findIndex(
-    (config) => config.env === APP_ENV || 'production'
-  )
+  const targetEnv = APP_ENV || 'production'
+  const envIndex = configs.findIndex((item) => item.env === targetEnv)
   return setActiveEnv(configs, envIndex)
 }
 
