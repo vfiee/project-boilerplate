@@ -12,9 +12,7 @@ export function setDocumentTitle(title) {
   if (!title) return
   document.title = title
 }
-export function getUrlParams(
-  url = `/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765874092508183`
-) {
+export function getUrlParams(url) {
   const href = decodeURIComponent(url || location.href)
   const [_, queryString] = href.split('?')
   const pairQueryList = (queryString || '').split('&')

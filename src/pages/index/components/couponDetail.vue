@@ -19,7 +19,7 @@ const { execute, data, isLoading } = useAxios(
   '/rest/data/v2.0/scripts/api/central/getCouponDetailYD',
   {
     method: 'POST',
-    
+
     interceptors: {
       response: false
     }
@@ -110,13 +110,13 @@ const carInfoList = [
   { label: '物料组：', value: 'data.materialGroupCodeList' },
   { label: '适用品牌：', value: 'data.applicableBrandNameList' },
   { label: '适用车系：', value: 'data.applicableSeriesNameList' },
-  { label: '适用企业：', value: 'data.shopCode' },
-  { label: '备注说明：', value: '' }
+  { label: '适用企业：', value: 'data.useCouponOrgName' },
+  { label: '备注说明：', value: 'data.description' }
 ]
 
 const couponRecordList = [
-  { label: '发放时间：', value: 'data.sendHistory.sendTime' },
-  { label: '发放企业：', value: 'data.sendHistory.sendShopName' },
+  { label: '发放时间：', value: 'data.sendHistory.receiveTime' },
+  { label: '发放企业：', value: 'data.sendHistory.receiveOrgName' },
   { label: '发放部门：', value: 'data.sendHistory.sendDepartment' },
   { label: '发放形式：', value: 'data.sendHistory.sendType' },
   { label: '权益订单：', value: 'data.sendHistory.sendCouponOrderFormId' },
