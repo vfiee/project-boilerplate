@@ -14,7 +14,7 @@ export function setDocumentTitle(title) {
 }
 
 export function getUrlParams(
-  url = '/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765874092508183'
+  url = '/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765873929177173'
 ) {
   const href = decodeURIComponent(url || location.href)
   const [_, queryString] = href?.split('?') || []
@@ -23,7 +23,7 @@ export function getUrlParams(
   if (DEV) {
     // 从弹框获取的token
     query['access_token'] =
-      '5426ad6fddf713d9e2065a9cf20331133e4e842ae66dc0cc0a7c51f6f8bfc724.MzQxNDgxMzcxOTE4NTQ0OA==0'
+      '91b2ff86ddc6b1160a2830b1f8303814cc5ddc8c99e23bcc5054cb6fef2133e9.MzQxNDgxMzcxOTE4NTQ0OA==0'
   }
   for (let i = 0; i < pairQueryList.length; i++) {
     const [key, value] = pairQueryList[i]?.split('=')

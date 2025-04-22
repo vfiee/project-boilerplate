@@ -274,7 +274,10 @@
 </template>
 
 <script setup>
-import { useAssistantStore, useCallStore } from '@/pages/index/stores'
+import {
+  useAssistantStore,
+  useCallStore
+} from '@/pages/solicitationTaskDetails/stores'
 import { message } from 'ant-design-vue'
 
 const assistantStore = useAssistantStore()

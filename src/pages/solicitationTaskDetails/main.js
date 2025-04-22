@@ -1,4 +1,4 @@
-import { setupDayjs, setupNProgress } from '@/plugins'
+import { setupDayjs } from '@/plugins'
 import { addCrmEventListener } from '@/services'
 import { setupStore } from '@/stores'
 import 'virtual:uno.css'
@@ -7,7 +7,6 @@ import App from './App.vue'
 import './styles/main.less'
 
 async function setupApp() {
-  setupNProgress()
   setupDayjs()
   const app = createApp(App)
   setupStore(app)
