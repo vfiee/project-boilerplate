@@ -4,7 +4,6 @@ import { setupStore } from '@/stores'
 import 'virtual:uno.css'
 import { createApp } from 'vue'
 import App from './App.vue'
-import './styles/main.less'
 
 async function setupApp() {
   setupDayjs()

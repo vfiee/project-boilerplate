@@ -23,7 +23,7 @@ const getProxyConfig = (envs = []) => {
     }, {})
 }
 
-const pages = ['solicitationTaskDetails']
+const pages = ['index']
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
