@@ -13,21 +13,20 @@ export function setDocumentTitle(title) {
   document.title = title
 }
 
-export function getUrlParams(
-  url = '/json/global_redirect/proxy.action?targetUrl=https%3A%2F%2Flapp-sandbox.xiaoshouyi.com%2Fservice%2Flapp%2Fpage%2Ftask_detail&objectId=3748555821860946&recordId=3765873929177173'
-) {
-  const href = decodeURIComponent(url || location.href)
-  const [_, queryString] = href?.split('?') || []
-  const pairQueryList = (queryString || '')?.split('&') || []
-  const query = {}
-  if (DEV) {
-    // 从弹框获取的token
-    query['access_token'] =
-      '91b2ff86ddc6b1160a2830b1f8303814cc5ddc8c99e23bcc5054cb6fef2133e9.MzQxNDgxMzcxOTE4NTQ0OA==0'
+export function getUrlParams(url = location.href, ignore = false) {
+  const params = {}
+  if (DEV && !ignore) {
+    url = ``
   }
-  for (let i = 0; i < pairQueryList.length; i++) {
-    const [key, value] = pairQueryList[i]?.split('=')
-    query[key] = value
-  }
-  return query
+  // 提取主URL参数
+  url.replace(/(?:[?&])([^=]+)=([^&]+)/g, (_, key, value) => {
+    const decodedValue = decodeURIComponent(decodeURIComponent(value))
+    params[key] = decodedValue
+    // 检查值是否是URL，如果是则提取其参数
+    if (decodedValue.includes('?')) {
+      Object.assign(params, getUrlParams(decodedValue, true) || {})
+    }
+  })
+
+  return params
 }
