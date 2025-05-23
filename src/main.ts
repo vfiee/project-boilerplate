@@ -1,17 +1,17 @@
 import './instrument';
 
-import { NestApplication, NestFactory } from '@nestjs/core';
 import { Logger, VersioningType } from '@nestjs/common';
-import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
-import { useContainer, validate } from 'class-validator';
-import swaggerInit from 'src/swagger';
+import { NestApplication, NestFactory } from '@nestjs/core';
 import { plainToInstance } from 'class-transformer';
+import { useContainer, validate } from 'class-validator';
+import compression from 'compression';
+import { NextFunction, Request } from 'express';
+import { Logger as PinoLogger } from 'nestjs-pino';
+import { AppModule } from 'src/app/app.module';
 import { AppEnvDto } from 'src/app/dtos/app.env.dto';
 import { MessageService } from 'src/common/message/services/message.service';
-import compression from 'compression';
-import { Logger as PinoLogger } from 'nestjs-pino';
-import { NextFunction, Request } from 'express';
+import swaggerInit from 'src/swagger';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule, {
@@ -89,7 +89,7 @@ async function bootstrap() {
     // Listen
     await app.listen(port, host);
 
-    logger.log(`Http versioning is ${versionEnable}`);
+    logger.log(`Http versioning is ${versionEnable ? 'enabled' : 'disabled'}`);
 
     logger.log(
         `Http Server running on ${await app.getUrl()}`,

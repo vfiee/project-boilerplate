@@ -1,0 +1,22 @@
+{
+    "keys": [
+        {
+            "kty": "EC",
+            "crv": "P-521",
+            "x": "AFEzs629r8Ziz7P4fTPbcM6EYjwtjf08PvdTDi0ePKSVjgaX_RJSoTimuDrdQsRKfTwgIqv5dYUmJk43hKxop3r4",
+            "y": "AXmrIJsOuRSViVvyx0eS-ReuT9yqNTqpDi4-UGfcFkYZT2E409NEs6jr9HUvP75HoTKvRgEUD7txm3Ueg-I-Ua5W",
+            "use": "sig",
+            "alg": "ES512",
+            "kid": "f8dfa88f019d01e645ef3ef814337585"
+        },
+        {
+            "kty": "EC",
+            "crv": "P-521",
+            "x": "ATxfCkK49Wlib4UkUyFMyMVot5TlfOteQHr7NfaPbxBesiNTGZKCAlABKpWSWFsMFtfyMU8mNksIIcowVAZ_C38R",
+            "y": "AJ4MR5RbQotA1ucfHqfO3fuKGw9HkmbDvFUvpTKQf2eaE6c6QPNBbHHhNd2xVZmI_zTT7PXxq9RY36OXEgeJ5rne",
+            "use": "sig",
+            "alg": "ES512",
+            "kid": "3411f2980ad05d5eae81a1761bde4114"
+        }
+    ]
+}
