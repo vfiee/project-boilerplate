@@ -4,6 +4,7 @@ import { ActivityModule } from 'src/modules/activity/activity.module';
 import { ApiKeyModule } from 'src/modules/api-key/api-key.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { AuthPublicController } from 'src/modules/auth/controllers/auth.public.controller';
+import { CountryPublicController } from 'src/modules/country/controllers/country.public.controller';
 import { CountryModule } from 'src/modules/country/country.module';
 import { EmailModule } from 'src/modules/email/email.module';
 import { HelloPublicController } from 'src/modules/hello/controllers/hello.public.controller';
@@ -22,6 +23,7 @@ import { ENUM_WORKER_QUEUES } from 'src/worker/enums/worker.enum';
         HelloPublicController,
         AuthPublicController,
         ResetPasswordPublicController,
+        CountryPublicController,
     ],
     providers: [],
     exports: [],
