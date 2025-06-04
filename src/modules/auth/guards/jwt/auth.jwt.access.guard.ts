@@ -1,7 +1,7 @@
-import { AuthGuard } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/modules/auth/enums/auth.status-code.enum';
+import { AuthGuard } from '@nestjs/passport';
 import { isUUID } from 'class-validator';
+import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/modules/auth/enums/auth.status-code.enum';
 import { IAuthJwtAccessTokenPayload } from 'src/modules/auth/interfaces/auth.interface';
 
 @Injectable()

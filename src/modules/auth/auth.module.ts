@@ -1,10 +1,10 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
+import { Algorithm } from 'jsonwebtoken';
 import { AuthJwtAccessStrategy } from 'src/modules/auth/guards/jwt/strategies/auth.jwt.access.strategy';
 import { AuthJwtRefreshStrategy } from 'src/modules/auth/guards/jwt/strategies/auth.jwt.refresh.strategy';
 import { AuthService } from 'src/modules/auth/services/auth.service';
-import { Algorithm } from 'jsonwebtoken';
 
 @Module({
     providers: [AuthService],

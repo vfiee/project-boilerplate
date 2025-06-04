@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { RouterModule } from 'src/router/router.module';
-import { CommonModule } from 'src/common/common.module';
 import { AppMiddlewareModule } from 'src/app/app.middleware.module';
+import { CommonModule } from 'src/common/common.module';
+import { RouterModule } from 'src/router/router.module';
 import { WorkerModule } from 'src/worker/worker.module';
 
 @Module({
@@ -19,4 +19,4 @@ import { WorkerModule } from 'src/worker/worker.module';
         WorkerModule,
     ],
 })
-export class AppModule {}
+export class AppModule { }

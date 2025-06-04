@@ -14,6 +14,9 @@ export default async function (app: NestApplication): Promise<void> {
     const docDesc: string = configService.get<string>('doc.description')!;
     const docVersion: string = configService.get<string>('app.version')!;
     const docPrefix: string = configService.get<string>('doc.prefix')!;
+    const host: string = configService.get<string>('app.http.host');
+    const port: number = configService.get<number>('app.http.port');
+    const docBaseUrl: string = `http://${host}:${port}${docPrefix}`;
 
     if (env !== ENUM_APP_ENVIRONMENT.PRODUCTION) {
         const documentBuild = new DocumentBuilder()
@@ -43,9 +46,7 @@ export default async function (app: NestApplication): Promise<void> {
             )
             .build();
 
-        const document = SwaggerModule.createDocument(app, documentBuild, {
-            deepScanRoutes: true,
-        });
+        const document = SwaggerModule.createDocument(app, documentBuild, { deepScanRoutes: true });
 
         writeFileSync('swagger.json', JSON.stringify(document));
         SwaggerModule.setup(docPrefix, app, document, {
@@ -65,6 +66,8 @@ export default async function (app: NestApplication): Promise<void> {
             },
         });
 
-        logger.log(`Docs will serve on ${docPrefix}`, 'NestApplication');
+        logger.log(`Docs will serve on ${docBaseUrl}`, 'NestApplication');
+        logger.log(`Json api will serve on ${docBaseUrl}/json`, 'NestApplication');
+        logger.log(`Yaml api will serve on ${docBaseUrl}/yaml`, 'NestApplication');
     }
 }

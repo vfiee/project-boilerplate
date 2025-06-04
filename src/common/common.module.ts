@@ -1,26 +1,26 @@
+import KeyvRedis from '@keyv/redis';
+import { BullModule } from '@nestjs/bullmq';
+import { CacheModule, CacheOptions } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 import { DATABASE_CONNECTION_NAME } from 'src/common/database/constants/database.constant';
 import {
     DatabaseModule,
     DatabaseOptionModule,
 } from 'src/common/database/database.module';
-import { MessageModule } from 'src/common/message/message.module';
-import { HelperModule } from 'src/common/helper/helper.module';
-import { RequestModule } from 'src/common/request/request.module';
-import { PolicyModule } from 'src/modules/policy/policy.module';
-import { AuthModule } from 'src/modules/auth/auth.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import configs from 'src/configs';
-import { PaginationModule } from 'src/common/pagination/pagination.module';
-import { FileModule } from 'src/common/file/file.module';
-import { BullModule } from '@nestjs/bullmq';
-import { CacheModule, CacheOptions } from '@nestjs/cache-manager';
 import { DatabaseOptionService } from 'src/common/database/services/database.options.service';
-import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
+import { FileModule } from 'src/common/file/file.module';
+import { HelperModule } from 'src/common/helper/helper.module';
 import { LoggerOptionModule } from 'src/common/logger/logger.option.module';
 import { LoggerOptionService } from 'src/common/logger/services/logger.option.service';
-import KeyvRedis from '@keyv/redis';
+import { MessageModule } from 'src/common/message/message.module';
+import { PaginationModule } from 'src/common/pagination/pagination.module';
+import { RequestModule } from 'src/common/request/request.module';
+import configs from 'src/configs';
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { PolicyModule } from 'src/modules/policy/policy.module';
 
 @Module({
     controllers: [],

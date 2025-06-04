@@ -1,15 +1,15 @@
 import {
+    CallHandler,
+    ExecutionContext,
     Injectable,
     NestInterceptor,
-    ExecutionContext,
-    CallHandler,
     RequestTimeoutException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
+import ms from 'ms';
 import { Observable, throwError, TimeoutError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
-import ms from 'ms';
 import {
     REQUEST_CUSTOM_TIMEOUT_META_KEY,
     REQUEST_CUSTOM_TIMEOUT_VALUE_META_KEY,

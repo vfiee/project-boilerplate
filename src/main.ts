@@ -62,15 +62,12 @@ async function bootstrap() {
     }
 
     // Validate Env
-    const classEnv = plainToInstance(AppEnvDto, process.env);
-    const errors = await validate(classEnv);
+    const errors = await validate(plainToInstance(AppEnvDto, process.env));
     if (errors.length > 0) {
         const messageService = app.get(MessageService);
         const errorsMessage = messageService.setValidationMessage(errors);
 
-        throw new Error('Env Variable Invalid', {
-            cause: errorsMessage,
-        });
+        throw new Error('Env Variable Invalid', { cause: errorsMessage });
     }
 
     // Swagger
