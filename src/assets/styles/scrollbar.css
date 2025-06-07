@@ -1,0 +1,25 @@
+/* scrollbar */
+::-webkit-scrollbar {
+	/* px-to-viewport-ignore-next */
+	width: 3px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgb(var(--primary-color));
+	/* px-to-viewport-ignore-next */
+	border-radius: 2px;
+}
+
+.horizontal-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	&::-webkit-scrollbar {
+		/* px-to-viewport-ignore-next */
+		height: 6px;
+		width: unset;
+	}
+}
+.scrollbar-none {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
