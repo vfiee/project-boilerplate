@@ -35,14 +35,23 @@
           "<uses-feature android:name=\"android.hardware.camera\"/>",
           "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
         ],
-        "minSdkVersion": 30,
+        "minSdkVersion": 23,
         "targetSdkVersion": 30,
+        "packagename": "com.renai.a11y-qsl",
+        "keystore": "./certificate/a11y-qsl.keystore",
+        "password": "a11y-qsl",
+        "aliasname": "a11y-qsl",
         "abiFilters": [
           "armeabi-v7a",
           "arm64-v8a"
         ]
       },
-      "ios": {},
+      "ios": {
+        "appid": "com.renai.a11y-qsl",
+        "mobileprovision": "./certificate/a11y-qsl.mobileprovision",
+        "p12": "./certificate/a11y-qsl.p12",
+        "password": "vyron"
+      },
       "sdkConfigs": {},
       "icons": {
         "android": {
@@ -79,7 +88,10 @@
     },
     "compatible": {
       "ignoreVersion": true
-    }
+    },
+    "screenOrientation": [
+      "portrait-primary"
+    ]
   },
   "quickapp": {},
   "mp-weixin": {

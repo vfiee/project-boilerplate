@@ -24,14 +24,19 @@ export default defineManifestConfig({
 			autoclose: true,
 			alwaysShowBeforeRender: true
 		},
+		screenOrientation: ["portrait-primary"],
 		/* 模块配置 */
 		modules: {},
 		/* 应用发布信息 */
 		distribute: {
 			/* android打包配置 */
 			android: {
-				minSdkVersion: 30,
+				minSdkVersion: 23,
 				targetSdkVersion: 30,
+				packagename: "com.renai.a11y-qsl",
+				keystore: "./certificate/a11y-qsl.keystore",
+				password: "a11y-qsl",
+				aliasname: "a11y-qsl",
 				abiFilters: ["armeabi-v7a", "arm64-v8a"],
 				permissions: [
 					'<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>',
@@ -52,7 +57,12 @@ export default defineManifestConfig({
 				]
 			},
 			/* ios打包配置 */
-			ios: {},
+			ios: {
+				appid: "com.renai.a11y-qsl",
+				mobileprovision: "./certificate/a11y-qsl.mobileprovision",
+				p12: "./certificate/a11y-qsl.p12",
+				password: "vyron"
+			},
 			/* SDK配置 */
 			sdkConfigs: {},
 			/* 图标配置 */
