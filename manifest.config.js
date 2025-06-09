@@ -98,6 +98,18 @@ export default defineManifestConfig({
 					}
 				}
 			}
+		},
+		permissions: {
+			SQLite: { description: "SQLite数据库" },
+			Speech: { description: "语音输入" },
+			Share: { description: "分享" },
+			Runtime: { description: "运行环境" },
+			Downloader: { description: "文件下载，应用更新" }
+		},
+		safearea: {
+			bottom: {
+				offset: "none"
+			}
 		}
 	},
 	/* 快应用特有相关 */

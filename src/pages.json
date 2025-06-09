@@ -14,19 +14,19 @@
     "height": "50px",
     "fontSize": "10px",
     "iconWidth": "24px",
-    "spacing": "3px",
+    "spacing": "5px",
     "list": [
       {
-        "iconPath": "static/images/tabbar/home.png",
-        "selectedIconPath": "static/images/tabbar/homeHL.png",
+        "text": "首页",
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "iconPath": "static/images/tabbar/home.png",
+        "selectedIconPath": "static/images/tabbar/homeHL.png"
       },
       {
-        "iconPath": "static/images/tabbar/example.png",
-        "selectedIconPath": "static/images/tabbar/exampleHL.png",
+        "text": "关于",
         "pagePath": "pages/about/index",
-        "text": "关于"
+        "iconPath": "static/images/tabbar/example.png",
+        "selectedIconPath": "static/images/tabbar/exampleHL.png"
       }
     ]
   },
@@ -36,7 +36,6 @@
       "type": "home",
       "layout": "default",
       "style": {
-        "navigationStyle": "custom",
         "navigationBarTitleText": "首页"
       }
     },

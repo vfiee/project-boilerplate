@@ -4,11 +4,11 @@ import { WotResolver } from "@uni-helper/vite-plugin-uni-components/resolvers"
 import UniLayouts from "@uni-helper/vite-plugin-uni-layouts"
 import UniManifest from "@uni-helper/vite-plugin-uni-manifest"
 import UniPages from "@uni-helper/vite-plugin-uni-pages"
-import UniPlatform from "@uni-helper/vite-plugin-uni-platform"
 import { join } from "node:path"
 import { visualizer } from "rollup-plugin-visualizer"
 // import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
+import UniRouter from "unplugin-uni-router/dist/vite.js"
 import { defineConfig } from "vite"
 import ViteRestart from "vite-plugin-restart"
 import UniPolyfill from "vite-plugin-uni-polyfill"
@@ -40,11 +40,26 @@ const getProxyConfig = envList => {
 		}, {})
 }
 
+const getBuildConfig = isDevelopment => {
+	if (!isDevelopment) return {}
+	return {
+		watch: {
+			exclude: ["node_modules/**", "/__uno.css"]
+		}
+	}
+}
+
+const resolveEsPlugin = (module, options) => {
+	return (module?.default || module)(options)
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
 	const { UNI_PLATFORM } = process.env
 	const isH5 = UNI_PLATFORM === "h5"
 	const isApp = UNI_PLATFORM === "app"
+	const isDevelopment = mode === "development"
+	const isProduction = mode === "production"
 	console.log("UNI_PLATFORM:", UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
 	const UnoCSS = await import("unocss/vite").then(m => m.default)
 	return {
@@ -72,28 +87,30 @@ export default defineConfig(async ({ mode }) => {
 		optimizeDeps: {},
 		build: {
 			target: "es6",
-			sourcemap: true,
 			outDir: "app",
-			minify: mode === "development" ? false : "terser",
+			sourcemap: isProduction,
+			minify: isDevelopment ? false : "terser",
 			terserOptions: {
 				compress: {
 					drop_console: true,
 					drop_debugger: true
 				}
-			}
+			},
+			...getBuildConfig()
 		},
 		plugins: [
-			UniPages({
-				exclude: ["**/components/**/**.*"],
+			resolveEsPlugin(UniPages, {
+				dts: false,
 				routeBlockLang: "json5",
-				subPackages: ["src/page1", "src/page2"],
-				dts: "src/types/uni-pages.d.ts"
+				exclude: ["**/components/**/**.*"],
+				// dts: "src/types/uni-pages.d.ts",
+				subPackages: ["src/page1", "src/page2"]
 			}),
-			UniLayouts(),
-			UniPlatform(),
+			resolveEsPlugin(UniLayouts),
 			UniManifest(),
-			Uni(),
-			UniPolyfill(),
+			resolveEsPlugin(Uni),
+			resolveEsPlugin(UniRouter),
+			resolveEsPlugin(UniPolyfill),
 			fixUniAppVitePlugin(),
 			UnoCSS(),
 			AutoImport({
@@ -102,16 +119,12 @@ export default defineConfig(async ({ mode }) => {
 					"@vueuse/core",
 					"uni-app",
 					{
-						from: "uni-mini-router",
-						imports: ["createRouter", "useRouter", "useRoute"]
-					},
-					{
 						from: "wot-design-uni",
 						imports: ["useToast", "useNotify", "useMessage"]
 					}
 				],
 				dts: "src/types/auto-import.d.ts",
-				dirs: ["src/hooks"], // 自动导入 hooks
+				dirs: ["./src/hooks/**"], // 自动导入 hooks
 				vueTemplate: true // default false
 			}),
 			Components({
@@ -123,7 +136,7 @@ export default defineConfig(async ({ mode }) => {
 			isH5 && setupHtmlPlugin(),
 			// 打包分析插件，h5 + 生产环境才弹出
 			isH5 &&
-				mode === "production" &&
+				isProduction &&
 				visualizer({
 					filename: "./node_modules/.cache/visualizer/stats.html",
 					open: true,

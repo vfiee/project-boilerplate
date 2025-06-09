@@ -4,6 +4,9 @@ import "abortcontroller-polyfill/dist/abortcontroller-polyfill-only"
 
 onLaunch(() => {
 	console.log("App Launch")
+	plus.runtime.getProperty(plus.runtime.appid, widgetInfo => {
+		console.log(`widgetInfo:`, JSON.stringify(widgetInfo))
+	})
 })
 onShow(() => {
 	console.log("App Show")

@@ -2,7 +2,6 @@
 {
 	layout: "default",
 	style: {
-		navigationStyle: "custom",
 		navigationBarTitleText: "首页"
 	}
 }
