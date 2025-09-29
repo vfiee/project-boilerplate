@@ -1,0 +1,16 @@
+/* :root {
+  --primary-color: 7 193 96;
+  --nprogress-color: rgb(var(--primary-color));
+  --header-box-shadow: 0 1px 2px rgb(0, 21, 41, 0.08);
+  --sider-box-shadow: 2px 0 8px 0 rgb(29, 35, 41, 0.05);
+  --tab-box-shadow: 0 1px 2px rgb(0, 21, 41, 0.08);
+} */
+/* .shadow-header {
+  box-shadow: var(--header-box-shadow);
+}
+.shadow-tab {
+  box-shadow: var(--tab-box-shadow);
+}
+.shadow-sider {
+  box-shadow: var(--sider-box-shadow);
+} */

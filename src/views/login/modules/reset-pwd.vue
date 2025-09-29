@@ -1,0 +1,103 @@
+<script setup>
+import { useAntdForm, useCaptcha, useFormRules } from '@/hooks'
+import { computed, reactive } from 'vue'
+import { useLoginModule } from '../share'
+
+defineOptions({
+  name: 'ResetPwd'
+})
+
+const { updateLoginModule } = useLoginModule()
+const { formRef, validate } = useAntdForm()
+const { label, isCounting, loading, getCaptcha } = useCaptcha()
+
+const model = reactive({
+  phone: '',
+  code: '',
+  password: '',
+  confirmPassword: ''
+})
+
+const rules = computed(() => {
+  const { formRules, createConfirmPwdRule } = useFormRules()
+
+  return {
+    phone: formRules.phone,
+    password: formRules.pwd,
+    confirmPassword: createConfirmPwdRule(model.password)
+  }
+})
+
+async function handleSubmit() {
+  await validate()
+}
+</script>
+
+<template>
+  <AForm
+    ref="formRef"
+    :model="model"
+    :rules="rules"
+    @keyup.enter="handleSubmit"
+  >
+    <AFormItem name="phone">
+      <AInput
+        v-model:value="model.phone"
+        size="large"
+        placeholder="请输入手机号"
+      />
+    </AFormItem>
+    <AFormItem name="code">
+      <div class="w-full flex-y-center gap-16px">
+        <AInput
+          v-model:value="model.code"
+          size="large"
+          placeholder="请输入验证码"
+        />
+        <AButton
+          size="large"
+          :disabled="isCounting"
+          :loading="loading"
+          @click="getCaptcha(model.phone)"
+        >
+          {{ label }}
+        </AButton>
+      </div>
+    </AFormItem>
+    <AFormItem name="password">
+      <AInputPassword
+        v-model:value="model.password"
+        size="large"
+        placeholder="请输入密码"
+      />
+    </AFormItem>
+    <AFormItem name="confirmPassword">
+      <AInputPassword
+        v-model:value="model.confirmPassword"
+        size="large"
+        placeholder="请再次输入密码"
+      />
+    </AFormItem>
+    <ASpace direction="vertical" size="large" class="w-full">
+      <AButton
+        type="primary"
+        block
+        size="large"
+        shape="round"
+        @click="handleSubmit"
+      >
+        确认
+      </AButton>
+      <AButton
+        block
+        size="large"
+        shape="round"
+        @click="updateLoginModule('pwd-login')"
+      >
+        取消
+      </AButton>
+    </ASpace>
+  </AForm>
+</template>
+
+<style scoped></style>
