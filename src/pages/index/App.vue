@@ -1,9 +1,6 @@
 <script setup>
 import AppProvider from '@/components/appProvider/index.vue'
-import { isTest, useAxios } from '@/services'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import { get } from 'lodash-es'
-import { onMounted } from 'vue'
 import Index from './index.vue'
 
 defineOptions({
@@ -15,7 +12,7 @@ defineOptions({
 <template>
   <a-config-provider :locale="zhCN">
     <AppProvider>
-      <Index class="bg-layout" />
+      <Index />
     </AppProvider>
   </a-config-provider>
 </template>

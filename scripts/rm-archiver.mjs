@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
-const projectPath = path.join(__dirname, "../")
+const projectPath = path.join(__dirname, '../')
 
-await $`rm -rf ${projectPath}/dist.zip`
+await $`cd ${projectPath}`
 
+await $`rm -rf ./dist.zip`

@@ -1,5 +1,5 @@
 <script setup>
-import { updateDialogTitle } from '@/utils'
+import { updateDialogTitle } from '@/utils';
 
 updateDialogTitle('首页')
 </script>

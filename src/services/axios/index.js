@@ -1,31 +1,33 @@
-import { useEnvStore } from '@/stores'
-import { getUrlParams } from '@/utils'
-import { useAxios as vueUseAxios } from '@vyron/use-axios'
-import axios from 'axios'
-import { get, merge } from 'lodash-es'
+import { useEnvStore } from "@/stores"
+import { getStorage } from "@/utils"
+import { useAxios as vueUseAxios } from "@vyron/use-axios"
+import axios from "axios"
+import dayjs from "dayjs"
+import { get, merge } from "lodash-es"
 
 const { DEV, APP_ENV } = import.meta.env
 
-export const isTest = APP_ENV === 'test'
+export const isTest = APP_ENV === "test"
 
 const instance = axios.create({
   timeout: 30000,
-  adapter: 'fetch',
-  timeoutErrorMessage: '请求超时',
-  responseType: 'json',
+  adapter: "fetch",
+  timeoutErrorMessage: "请求超时",
+  responseType: "json",
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
   }
 })
 
-instance.interceptors.request.use((config) => {
-  const { module: requestModule = 'common' } = config || {}
+instance.interceptors.request.use(config => {
+  const { module: requestModule = "common" } = config || {}
   const envStore = useEnvStore()
   const { modules } = envStore.currentEnv || {}
   const { proxyPrefix, url } = modules[requestModule] || {}
-  const { access_token } = getUrlParams()
   config.baseURL = DEV ? `/${proxyPrefix}` : url
   if (DEV) {
+    const now = dayjs().format("YYYY-MM-DD")
+    const access_token = getStorage(`${now}__access_token`)
     config.headers = merge({}, config.headers, {
       Authorization: `Bearer ${access_token}`
     })
@@ -33,17 +35,17 @@ instance.interceptors.request.use((config) => {
   return config
 })
 
-instance.interceptors.response.use((response) => {
+instance.interceptors.response.use(response => {
   const skipResponseInterceptor = !get(
     response,
-    'config.interceptors.response',
+    "config.interceptors.response",
     true
   )
   if (skipResponseInterceptor) return response
-  const data = get(response, 'data') || {}
+  const data = get(response, "data") || {}
   const { code, msg, message } = data
   if (code == 200) return data
-  window.$message.error(msg || message || '请求发生错误')
+  window.$message.error(msg || message || "请求发生错误")
   return Promise.reject(response)
 })
 

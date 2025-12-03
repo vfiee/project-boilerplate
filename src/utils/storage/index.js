@@ -17,7 +17,7 @@ export function getStorage(key, path, defaultValue) {
 export function setStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value))
-  } catch (_a) {}
+  } catch (_a) { }
 }
 
 export function removeStorage(key) {
