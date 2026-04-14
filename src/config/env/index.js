@@ -1,23 +1,34 @@
 export const envs = [
   {
-    env: 'test',
-    name: '测试环境',
+    env: "test",
+    name: "测试环境",
     modules: {
       common: {
-        proxyPrefix: 'test',
-        url: 'https://api-sandbox.xiaoshouyi.com'
-      }
-    }
+        proxyPrefix: "test",
+        url: "https://api-sandbox.xiaoshouyi.com",
+      },
+    },
   },
   {
-    name: '正式环境',
-    env: 'production',
+    env: "prod",
+    name: "正式环境",
+    modules: {
+      common: {
+        proxyPrefix: "prod",
+        url: "https://api.xiaoshouyi.com",
+      },
+    },
+  },
+  {
+    name: "发布环境",
+    env: "production",
     modules: {
       common: {
         enableProxy: false,
-        proxyPrefix: 'prod',
-        url: '/service/api/proxy?request='
-      }
-    }
-  }
-]
+        url: "/service/api/proxy?request=",
+      },
+    },
+  },
+];
+
+export const currentEnv = import.meta.env.APP_ENV || "production";
