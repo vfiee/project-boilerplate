@@ -1,15 +1,16 @@
-import { useToggle } from '@vueuse/core'
+import { useToggle } from "@vueuse/core";
 
 export function useLoading() {
-  const [loading, toggleLoading] = useToggle()
+  const [loading, toggleLoading] = useToggle();
 
-  const startLoading = () => toggleLoading(true)
-  const endLoading = () => toggleLoading(false)
+  const startLoading = () => toggleLoading(true);
+  const endLoading = () => toggleLoading(false);
 
   return {
     loading,
     startLoading,
     endLoading,
-    toggleLoading
-  }
+    toggleLoading,
+    stopLoading: endLoading,
+  };
 }
