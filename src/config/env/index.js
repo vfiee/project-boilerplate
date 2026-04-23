@@ -30,5 +30,3 @@ export const envs = [
     },
   },
 ];
-
-export const currentEnv = import.meta.env.APP_ENV || "production";

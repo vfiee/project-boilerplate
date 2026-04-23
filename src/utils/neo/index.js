@@ -60,19 +60,19 @@ export async function autoLogin() {
   if (PROD) return;
   const data = isProd
     ? {
-        grant_type: "password",
-        username: "",
-        password: "" + "",
-        client_id: "",
-        client_secret: "",
-      }
+      grant_type: "password",
+      username: "13911514594",
+      password: "ting0429" + "OcDhJla5",
+      client_id: "fab2947e6fb8dbd0f960d70b5295fbcf",
+      client_secret: "f1a99f801e69455782bfc0f6eb330ed6",
+    }
     : {
-        grant_type: "password",
-        username: "",
-        password: "" + "",
-        client_id: "",
-        client_secret: "",
-      };
+      grant_type: "password",
+      username: "",
+      password: "" + "",
+      client_id: "",
+      client_secret: "",
+    };
   const { execute, data: res } = useAxios("/oauth2/token", {
     data,
     method: "POST",

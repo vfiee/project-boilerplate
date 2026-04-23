@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-    envPrefix: ['VITE_', 'APP_'],
+    envPrefix: ['VITE_', 'APP_', 'GLOBAL_'],
     server: {
       open: true,
       port: 4433,

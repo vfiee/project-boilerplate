@@ -1,18 +1,17 @@
 <script setup>
-import AppProvider from '@/components/appProvider/index.vue'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import Index from './index.vue'
+import AppProvider from '@/components/appProvider/index.vue';
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import CollaborativeCustomer from './index.vue';
 
 defineOptions({
-  name: 'APP'
+  name: 'CollaborativeCustomerApp'
 })
-
 </script>
 
 <template>
   <a-config-provider :locale="zhCN">
     <AppProvider>
-      <Index />
+      <CollaborativeCustomer />
     </AppProvider>
   </a-config-provider>
 </template>
